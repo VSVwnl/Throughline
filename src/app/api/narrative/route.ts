@@ -1,6 +1,5 @@
-import { NextResponse } from "next/server";
 import { ARCHETYPE_BY_ID } from "@/data/archetypes";
-import { generateNarrative } from "@/lib/gemini";
+import { streamGenerateNarrative } from "@/lib/gemini";
 
 export const runtime = "nodejs";
 
@@ -12,13 +11,41 @@ export async function POST(req: Request) {
 
   const archetype = body.archetypeId ? ARCHETYPE_BY_ID[body.archetypeId] : undefined;
   if (!archetype) {
-    return NextResponse.json({ error: "Unknown archetype" }, { status: 400 });
+    return new Response(JSON.stringify({ error: "Unknown archetype" }), {
+      status: 400,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 
-  const text = await generateNarrative({
+  const narrativeReq = {
     archetype,
     paraLeading: body.paraLeading ?? archetype.paraLeaning,
+  };
+
+  const encoder = new TextEncoder();
+  const stream = new ReadableStream({
+    async start(controller) {
+      try {
+        for await (const delta of streamGenerateNarrative(narrativeReq, {
+          signal: req.signal,
+        })) {
+          if (req.signal.aborted) break;
+          controller.enqueue(encoder.encode(delta));
+        }
+      } finally {
+        try {
+          controller.close();
+        } catch {
+          // ignore double-close / abort races
+        }
+      }
+    },
   });
 
-  return NextResponse.json({ text });
+  return new Response(stream, {
+    headers: {
+      "Content-Type": "text/plain; charset=utf-8",
+      "Cache-Control": "no-store",
+    },
+  });
 }

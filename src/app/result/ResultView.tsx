@@ -5,16 +5,15 @@ import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { matchArchetypes } from "@/lib/match";
 import type {
-  Archetype,
   ArchetypeId,
   ArchetypeMatch,
   BiometricInput,
-  Era,
 } from "@/lib/types";
 import ChatPanel from "@/components/ChatPanel";
 import StoryStudio from "@/components/StoryStudio";
 import SilhouetteFallback from "@/components/SilhouetteFallback";
 import ClusterScatter from "@/components/ClusterScatter";
+import ThroughlineGraph from "@/components/ThroughlineGraph";
 
 const ARCHETYPE_COLORS: Record<ArchetypeId, string> = {
   "reach-rhythm": "#5fb3b3",
@@ -58,6 +57,8 @@ export default function ResultView() {
   const result = useMemo(() => matchArchetypes(input), [input]);
   const [activeId, setActiveId] = useState<string | null>(null);
   const [chatOpen, setChatOpen] = useState(false);
+  const [paraLens, setParaLens] = useState(true);
+  const paraLeading = paraLens;
 
   const active: ArchetypeMatch =
     result.allRanked.find((m) => m.archetype.id === activeId) ??
@@ -153,24 +154,38 @@ export default function ResultView() {
         <ClusterScatter input={input} primaryArchetypeId={active.archetype.id} />
       </section>
 
+      <section className="mt-12">
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-stone-500 mb-3">
+          Lens
+        </p>
+        <div className="flex flex-wrap items-center gap-3">
+          <LensToggle paraLens={paraLens} onChange={setParaLens} />
+          <p className="text-xs text-stone-500 leading-relaxed max-w-xl">
+            {paraLens
+              ? "Paralympic lens opens the story, silhouette, and analyst prompts with Para sport families and classifications."
+              : "Olympic lens opens with Olympic sport families while keeping Paralympic depth in the narrative and chat."}
+          </p>
+        </div>
+      </section>
+
       <section className="mt-16">
         <SectionHeader
           eyebrow="Story"
           title={`Hear your throughline as ${active.archetype.name}.`}
         />
         <StoryStudio
-          key={active.archetype.id}
+          key={`${active.archetype.id}-${paraLeading ? "para" : "oly"}`}
           archetype={active.archetype}
-          paraLeading={active.archetype.paraLeaning}
+          paraLeading={paraLeading}
         />
       </section>
 
       <section className="mt-16">
         <SectionHeader
-          eyebrow="Timeline"
+          eyebrow="Throughline"
           title={`${active.archetype.name} across 120 years of Team USA.`}
         />
-        <Timeline archetype={active.archetype} />
+        <ThroughlineGraph key={active.archetype.id} archetype={active.archetype} />
       </section>
 
       <section className="mt-16 mb-24">
@@ -188,12 +203,54 @@ export default function ResultView() {
 
       {chatOpen && (
         <ChatPanel
-          key={active.archetype.id}
+          key={`${active.archetype.id}-${paraLeading ? "para" : "oly"}`}
           archetype={active.archetype}
+          paraLeading={paraLeading}
           onClose={() => setChatOpen(false)}
         />
       )}
     </main>
+  );
+}
+
+function LensToggle({
+  paraLens,
+  onChange,
+}: {
+  paraLens: boolean;
+  onChange: (para: boolean) => void;
+}) {
+  return (
+    <div
+      className="inline-flex rounded-md border border-border bg-surface p-1"
+      role="group"
+      aria-label="Olympic or Paralympic lens"
+    >
+      <button
+        type="button"
+        onClick={() => onChange(true)}
+        className={`px-4 py-2 rounded text-sm font-medium transition-colors ${
+          paraLens
+            ? "bg-paralympic/20 text-paralympic border border-paralympic/40"
+            : "text-stone-400 hover:text-stone-200"
+        }`}
+        aria-pressed={paraLens}
+      >
+        Para lens
+      </button>
+      <button
+        type="button"
+        onClick={() => onChange(false)}
+        className={`px-4 py-2 rounded text-sm font-medium transition-colors ${
+          !paraLens
+            ? "bg-olympic/20 text-olympic border border-olympic/40"
+            : "text-stone-400 hover:text-stone-200"
+        }`}
+        aria-pressed={!paraLens}
+      >
+        Olympic lens
+      </button>
+    </div>
   );
 }
 
@@ -328,91 +385,6 @@ function ArchetypePill({
         {(match.confidence * 100).toFixed(0)}%
       </span>
     </button>
-  );
-}
-
-function Timeline({ archetype }: { archetype: Archetype }) {
-  return (
-    <ol className="border-l border-border ml-2">
-      {archetype.eras.map((era) => (
-        <EraRow key={era.decade} era={era} />
-      ))}
-    </ol>
-  );
-}
-
-function EraRow({ era }: { era: Era }) {
-  return (
-    <li className="relative pl-6 pb-10">
-      <span className="absolute -left-[5px] top-2 size-[10px] rounded-full bg-stone-100" />
-      <div className="font-mono text-xs uppercase tracking-wider text-stone-500">
-        {era.decade}
-      </div>
-      <div className="text-lg font-medium mt-1">{era.yearLabel}</div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-        <EraColumn tone="olympic" title="Olympic">
-          <ul className="space-y-3">
-            {era.olympic.map((entry, i) => (
-              <li key={i}>
-                <div className="text-sm font-medium">{entry.sportFamily}</div>
-                <p className="text-xs text-stone-400 mt-1 leading-relaxed">
-                  {entry.note}
-                </p>
-              </li>
-            ))}
-          </ul>
-        </EraColumn>
-
-        <EraColumn tone="paralympic" title="Paralympic">
-          {Array.isArray(era.paralympic) ? (
-            <ul className="space-y-3">
-              {era.paralympic.map((entry, i) => (
-                <li key={i}>
-                  <div className="text-sm font-medium">
-                    {entry.sportFamily}{" "}
-                    <span className="font-mono text-[11px] text-stone-500">
-                      {entry.classification}
-                    </span>
-                  </div>
-                  <p className="text-xs text-stone-400 mt-1 leading-relaxed">
-                    {entry.note}
-                  </p>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <div>
-              <div className="text-sm font-medium">Pre-1960</div>
-              <p className="text-xs text-stone-400 mt-1 leading-relaxed">
-                {era.paralympic.note}
-              </p>
-            </div>
-          )}
-        </EraColumn>
-      </div>
-    </li>
-  );
-}
-
-function EraColumn({
-  tone,
-  title,
-  children,
-}: {
-  tone: "olympic" | "paralympic";
-  title: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="rounded-md border border-border bg-surface p-4">
-      <div
-        className={`font-mono text-[10px] uppercase tracking-wider mb-3 text-${tone}`}
-      >
-        {title}
-      </div>
-      {children}
-    </div>
   );
 }
 

@@ -18,10 +18,15 @@ export const ARCHETYPES: Archetype[] = [
       { sport: "Para rowing", classification: "PR1–PR3" },
     ],
     paraLeaning: true,
-    chatSuggestions: [
+    chatSuggestionsPara: [
       "What's the spread between S5 and S10 in Para swimming?",
       "How does the PR1–PR3 system structure Para rowing classes?",
+      "When did Para rowing join the Paralympic program?",
+    ],
+    chatSuggestionsOlympic: [
       "Which Olympic rowing events most fit a reach-and-rhythm build?",
+      "How do long-axis swim strokes map to reach-and-rhythm builds?",
+      "What connects hurdles and high jump to lever-driven timing?",
     ],
     eras: [
       {
@@ -161,10 +166,15 @@ export const ARCHETYPES: Archetype[] = [
       { sport: "Para judo", classification: "J1 / J2" },
     ],
     paraLeaning: false,
-    chatSuggestions: [
+    chatSuggestionsPara: [
       "How are Para powerlifting bench-press weight classes structured?",
       "What changed with the J1 / J2 reform in Para judo in 2022?",
+      "How does Para judo classification differ from Olympic judo?",
+    ],
+    chatSuggestionsOlympic: [
       "Which Olympic wrestling weight categories typically fit a compact build?",
+      "What gymnastics events reward a compact, high power-to-weight frame?",
+      "How do Olympic throws families use coil-and-release mechanics?",
     ],
     eras: [
       {
@@ -305,10 +315,15 @@ export const ARCHETYPES: Archetype[] = [
       { sport: "Para triathlon", classification: "PTS" },
     ],
     paraLeaning: true,
-    chatSuggestions: [
+    chatSuggestionsPara: [
       "How is the T54 classification structured in Para athletics?",
       "What do the H1–H5 categories mean in Para handcycling?",
       "When did Para triathlon's PTS classification system formalize?",
+    ],
+    chatSuggestionsOlympic: [
+      "Which Olympic triathlon distances reward a lean aerobic engine?",
+      "How do US marathon builds differ from track distance runners?",
+      "What rowing splits fit an endurance-preferring profile?",
     ],
     eras: [
       {
@@ -448,10 +463,15 @@ export const ARCHETYPES: Archetype[] = [
       { sport: "Boccia", classification: "BC1–BC4" },
     ],
     paraLeaning: true,
-    chatSuggestions: [
+    chatSuggestionsPara: [
       "What's the difference between SH1 and SH2 in Para shooting?",
       "How are the BC1–BC4 boccia classes structured?",
       "How does Open vs. W1 Para archery classification work?",
+    ],
+    chatSuggestionsOlympic: [
+      "How does Olympic rifle time-based scoring work?",
+      "What's the role of draw length in Olympic archery?",
+      "Which pistol events reward steady trigger control?",
     ],
     eras: [
       {
@@ -591,10 +611,15 @@ export const ARCHETYPES: Archetype[] = [
       { sport: "Wheelchair fencing", classification: "Cat A / B" },
     ],
     paraLeaning: false,
-    chatSuggestions: [
+    chatSuggestionsPara: [
       "How does the 1.0–4.5 point system work in wheelchair basketball?",
       "What's the distinction between MD and VS classes in sitting volleyball?",
       "How are Cat A and Cat B used in wheelchair fencing?",
+    ],
+    chatSuggestionsOlympic: [
+      "How does block-to-sprint transfer show up in Olympic relay events?",
+      "What distinguishes US basketball movement profiles on the court?",
+      "Which Olympic jump events need hinge-and-pivot timing?",
     ],
     eras: [
       {

@@ -30,18 +30,32 @@ export default function StoryStudio({
 
   useEffect(() => {
     const ctrl = new AbortController();
-    fetch("/api/narrative", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ archetypeId: archetype.id, paraLeading }),
-      signal: ctrl.signal,
-    })
-      .then((r) => r.json())
-      .then((d: { text?: string }) => {
-        if (ctrl.signal.aborted) return;
-        if (d.text) setNarrative(d.text);
-      })
-      .catch(() => {});
+    (async () => {
+      try {
+        const r = await fetch("/api/narrative", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ archetypeId: archetype.id, paraLeading }),
+          signal: ctrl.signal,
+        });
+        if (!r.ok || !r.body) return;
+        const reader = r.body.getReader();
+        const dec = new TextDecoder();
+        let acc = "";
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          if (ctrl.signal.aborted) {
+            reader.releaseLock();
+            return;
+          }
+          acc += dec.decode(value, { stream: true });
+          setNarrative(acc);
+        }
+      } catch {
+        /* aborted or network error */
+      }
+    })();
     return () => ctrl.abort();
   }, [archetype.id, paraLeading]);
 
@@ -50,7 +64,7 @@ export default function StoryStudio({
     fetch("/api/silhouette", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ archetypeId: archetype.id }),
+      body: JSON.stringify({ archetypeId: archetype.id, paraLeading }),
       signal: ctrl.signal,
     })
       .then((r) => r.json())
@@ -70,7 +84,7 @@ export default function StoryStudio({
         setImage({ kind: "mock" });
       });
     return () => ctrl.abort();
-  }, [archetype.id]);
+  }, [archetype.id, paraLeading]);
 
   async function playAudio() {
     if (!narrative) return;

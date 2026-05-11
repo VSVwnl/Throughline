@@ -6,12 +6,16 @@ import type { ChatTurn } from "@/lib/gemini";
 
 export default function ChatPanel({
   archetype,
+  paraLeading,
   onClose,
 }: {
   archetype: Archetype;
+  paraLeading: boolean;
   onClose: () => void;
 }) {
-  const suggestions = archetype.chatSuggestions;
+  const suggestions = paraLeading
+    ? archetype.chatSuggestionsPara
+    : archetype.chatSuggestionsOlympic;
   const [messages, setMessages] = useState<ChatTurn[]>([]);
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
@@ -24,25 +28,81 @@ export default function ChatPanel({
   async function send(text: string) {
     if (!text.trim()) return;
     const next: ChatTurn[] = [...messages, { role: "user", text }];
-    setMessages(next);
+    const assistantIndex = next.length;
+    setMessages([...next, { role: "model", text: "" }]);
     setInput("");
     setBusy(true);
     try {
       const r = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ archetypeId: archetype.id, messages: next }),
+        body: JSON.stringify({
+          archetypeId: archetype.id,
+          messages: next,
+          paraLeading,
+        }),
       });
-      const d = (await r.json()) as { reply?: string };
-      setMessages([...next, { role: "model", text: d.reply ?? "(no response)" }]);
+      const ct = r.headers.get("content-type") ?? "";
+      if (!r.ok) {
+        let errMsg = `Request failed (${r.status})`;
+        if (ct.includes("application/json")) {
+          const j = (await r.json()) as { error?: string };
+          if (j.error) errMsg = j.error;
+        }
+        setMessages((prev) => {
+          const copy = [...prev];
+          if (copy[assistantIndex]?.role === "model") {
+            copy[assistantIndex] = { role: "model", text: errMsg };
+          }
+          return copy;
+        });
+        return;
+      }
+      if (!r.body) {
+        setMessages((prev) => {
+          const copy = [...prev];
+          if (copy[assistantIndex]?.role === "model") {
+            copy[assistantIndex] = { role: "model", text: "(no response body)" };
+          }
+          return copy;
+        });
+        return;
+      }
+      const reader = r.body.getReader();
+      const dec = new TextDecoder();
+      let acc = "";
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        acc += dec.decode(value, { stream: true });
+        setMessages((prev) => {
+          const copy = [...prev];
+          if (copy[assistantIndex]?.role === "model") {
+            copy[assistantIndex] = { role: "model", text: acc };
+          }
+          return copy;
+        });
+      }
+      if (!acc.trim()) {
+        setMessages((prev) => {
+          const copy = [...prev];
+          if (copy[assistantIndex]?.role === "model") {
+            copy[assistantIndex] = { role: "model", text: "(no response)" };
+          }
+          return copy;
+        });
+      }
     } catch (err) {
-      setMessages([
-        ...next,
-        {
-          role: "model",
-          text: `Sorry, that failed: ${err instanceof Error ? err.message : String(err)}`,
-        },
-      ]);
+      setMessages((prev) => {
+        const copy = [...prev];
+        if (copy[assistantIndex]?.role === "model") {
+          copy[assistantIndex] = {
+            role: "model",
+            text: `Sorry, that failed: ${err instanceof Error ? err.message : String(err)}`,
+          };
+        }
+        return copy;
+      });
     } finally {
       setBusy(false);
     }
@@ -57,7 +117,7 @@ export default function ChatPanel({
               Analyst chat · {archetype.name}
             </div>
             <div className="text-sm font-medium mt-1">
-              Equal depth for Olympic + Paralympic context.
+              {paraLeading ? "Paralympic" : "Olympic"} lens · equal depth for both sides.
             </div>
           </div>
           <button
@@ -100,9 +160,12 @@ export default function ChatPanel({
               {m.text}
             </div>
           ))}
-          {busy && (
-            <p className="text-xs text-stone-500 font-mono">Analyst thinking…</p>
-          )}
+          {busy &&
+            messages.length > 0 &&
+            messages[messages.length - 1]?.role === "model" &&
+            messages[messages.length - 1]?.text === "" && (
+              <p className="text-xs text-stone-500 font-mono">Analyst thinking…</p>
+            )}
         </div>
 
         <form
