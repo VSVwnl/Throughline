@@ -2,7 +2,7 @@ import type { Archetype } from "@/lib/types";
 
 const PRE_1960 = {
   kind: "pre-1960" as const,
-  note: "The Paralympic Games begin in 1960; classification history starts here.",
+  note: "The Paralympic Games begin with the Paralympic Games Rome 1960; classification history starts there.",
 };
 
 export const ARCHETYPES: Archetype[] = [
@@ -37,7 +37,7 @@ export const ARCHETYPES: Archetype[] = [
         decade: "1930s–1950s",
         yearLabel: "1932–1956",
         olympic: [
-          { sportFamily: "Swimming", note: "US relay swimming and rowing crews carry long-stroke tradition through Helsinki and Melbourne." },
+          { sportFamily: "Swimming", note: "US relay swimming and rowing crews carry long-stroke tradition through the Olympic Games Helsinki 1952 and the Olympic Games Melbourne 1956." },
         ],
         paralympic: PRE_1960,
       },
@@ -52,7 +52,7 @@ export const ARCHETYPES: Archetype[] = [
             kind: "data",
             sportFamily: "Para swimming",
             classification: "S5–S10",
-            note: "First Paralympic Games (Rome '60); swimming added among the founding sports.",
+            note: "The inaugural Paralympic Games Rome 1960 establish swimming among the founding sports.",
           },
         ],
       },
@@ -60,7 +60,7 @@ export const ARCHETYPES: Archetype[] = [
         decade: "1970s",
         yearLabel: "1972–1976",
         olympic: [
-          { sportFamily: "Swimming", note: "US distance swimmers contest medals across Munich and Montreal." },
+          { sportFamily: "Swimming", note: "US distance swimmers contest medals across the Olympic Games Munich 1972 and the Olympic Games Montreal 1976." },
         ],
         paralympic: [
           {
@@ -112,7 +112,7 @@ export const ARCHETYPES: Archetype[] = [
             kind: "data",
             sportFamily: "Para rowing",
             classification: "Pre-PR classes",
-            note: "Adaptive rowing programs expand; Para rowing debuts at the 2008 Beijing Paralympic Games.",
+            note: "Adaptive rowing programs expand; Para rowing debuts at the Paralympic Games Beijing 2008.",
           },
         ],
       },
@@ -203,7 +203,7 @@ export const ARCHETYPES: Archetype[] = [
         decade: "1970s",
         yearLabel: "1972–1976",
         olympic: [
-          { sportFamily: "Gymnastics", note: "US gymnastics and wrestling deepen modern programs across Munich and Montreal." },
+          { sportFamily: "Gymnastics", note: "US gymnastics and wrestling deepen modern programs across the Olympic Games Munich 1972 and the Olympic Games Montreal 1976." },
         ],
         paralympic: [
           {
@@ -233,7 +233,7 @@ export const ARCHETYPES: Archetype[] = [
         decade: "1990s",
         yearLabel: "1992–1996",
         olympic: [
-          { sportFamily: "Gymnastics", note: "US gymnastics and wrestling continue Olympic medal presence across Barcelona and Atlanta." },
+          { sportFamily: "Gymnastics", note: "US gymnastics and wrestling continue Olympic medal presence across the Olympic Games Barcelona 1992 and the Olympic Games Atlanta 1996." },
         ],
         paralympic: [
           {
@@ -248,7 +248,7 @@ export const ARCHETYPES: Archetype[] = [
         decade: "2000s",
         yearLabel: "2000–2008",
         olympic: [
-          { sportFamily: "Gymnastics", note: "US women's gymnastics rises toward multi-cycle Olympic dominance across Sydney and Athens." },
+          { sportFamily: "Gymnastics", note: "US women's gymnastics rises toward multi-cycle Olympic dominance across the Olympic Games Sydney 2000 and the Olympic Games Athens 2004." },
         ],
         paralympic: [
           {
@@ -323,7 +323,7 @@ export const ARCHETYPES: Archetype[] = [
         decade: "1930s–1950s",
         yearLabel: "1932–1956",
         olympic: [
-          { sportFamily: "Distance running", note: "US distance running and rowing crews remain competitive through Berlin, London, and Helsinki." },
+          { sportFamily: "Distance running", note: "US distance running and rowing crews remain competitive through the Olympic Games Berlin 1936, the Olympic Games London 1948, and the Olympic Games Helsinki 1952." },
         ],
         paralympic: PRE_1960,
       },
@@ -361,7 +361,7 @@ export const ARCHETYPES: Archetype[] = [
         decade: "1980s",
         yearLabel: "1984–1988",
         olympic: [
-          { sportFamily: "Marathon", note: "US marathoners contest Olympic medals on home soil in '84." },
+          { sportFamily: "Marathon", note: "US marathoners contest Olympic medals at the Olympic Games Los Angeles 1984." },
         ],
         paralympic: [
           {
@@ -376,7 +376,7 @@ export const ARCHETYPES: Archetype[] = [
         decade: "1990s",
         yearLabel: "1992–1996",
         olympic: [
-          { sportFamily: "Distance running", note: "US distance running and emerging triathlon programs consolidate across Barcelona and Atlanta." },
+          { sportFamily: "Distance running", note: "US distance running and emerging triathlon programs consolidate across the Olympic Games Barcelona 1992 and the Olympic Games Atlanta 1996." },
         ],
         paralympic: [
           {
@@ -391,14 +391,14 @@ export const ARCHETYPES: Archetype[] = [
         decade: "2000s",
         yearLabel: "2000–2008",
         olympic: [
-          { sportFamily: "Triathlon", note: "Triathlon debuts at Sydney 2000; US athletes contend at both Olympic distances." },
+          { sportFamily: "Triathlon", note: "Triathlon debuts at the Olympic Games Sydney 2000; US athletes contend at both Olympic distances." },
         ],
         paralympic: [
           {
             kind: "data",
             sportFamily: "Para handcycling",
             classification: "H1–H5 (introduced 2004)",
-            note: "Handcycling joins the Paralympic program at the 2004 Athens Games.",
+            note: "Handcycling joins the Paralympic program at the Paralympic Games Athens 2004.",
           },
         ],
       },
@@ -481,7 +481,7 @@ export const ARCHETYPES: Archetype[] = [
             kind: "data",
             sportFamily: "Wheelchair archery",
             classification: "Open / W classes",
-            note: "Archery among the founding Paralympic sports of 1960.",
+            note: "Archery is among the founding sports of the Paralympic Games Rome 1960.",
           },
         ],
       },
@@ -489,7 +489,7 @@ export const ARCHETYPES: Archetype[] = [
         decade: "1970s",
         yearLabel: "1972–1976",
         olympic: [
-          { sportFamily: "Archery", note: "Archery returns to the Olympic program in Munich '72, drawing US precision athletes." },
+          { sportFamily: "Archery", note: "Archery returns to the Olympic program at the Olympic Games Munich 1972, drawing US precision athletes." },
         ],
         paralympic: [
           {
@@ -504,7 +504,7 @@ export const ARCHETYPES: Archetype[] = [
         decade: "1980s",
         yearLabel: "1984–1988",
         olympic: [
-          { sportFamily: "Shooting", note: "US Olympic shooting program peaks in 1984 with multiple medals." },
+          { sportFamily: "Shooting", note: "US Olympic shooting program peaks at the Olympic Games Los Angeles 1984 with multiple medals." },
         ],
         paralympic: [
           {
@@ -519,7 +519,7 @@ export const ARCHETYPES: Archetype[] = [
         decade: "1990s",
         yearLabel: "1992–1996",
         olympic: [
-          { sportFamily: "Shooting", note: "US shooting and archery contest medals across Barcelona and Atlanta." },
+          { sportFamily: "Shooting", note: "US shooting and archery contest medals across the Olympic Games Barcelona 1992 and the Olympic Games Atlanta 1996." },
         ],
         paralympic: [
           {
@@ -534,7 +534,7 @@ export const ARCHETYPES: Archetype[] = [
         decade: "2000s",
         yearLabel: "2000–2008",
         olympic: [
-          { sportFamily: "Archery", note: "US archery and shooting maintain Olympic medal presence across Sydney and Athens." },
+          { sportFamily: "Archery", note: "US archery and shooting maintain Olympic medal presence across the Olympic Games Sydney 2000 and the Olympic Games Athens 2004." },
         ],
         paralympic: [
           {
@@ -609,7 +609,7 @@ export const ARCHETYPES: Archetype[] = [
         decade: "1930s–1950s",
         yearLabel: "1932–1956",
         olympic: [
-          { sportFamily: "Sprinting", note: "US Olympic sprinting establishes its global lineage through Berlin, London, Helsinki, and Melbourne." },
+          { sportFamily: "Sprinting", note: "US Olympic sprinting establishes its global lineage through the Olympic Games Berlin 1936, the Olympic Games London 1948, the Olympic Games Helsinki 1952, and the Olympic Games Melbourne 1956." },
         ],
         paralympic: PRE_1960,
       },
@@ -632,7 +632,7 @@ export const ARCHETYPES: Archetype[] = [
         decade: "1970s",
         yearLabel: "1972–1976",
         olympic: [
-          { sportFamily: "Basketball", note: "US sprint and basketball programs deepen across Munich and Montreal." },
+          { sportFamily: "Basketball", note: "US sprint and basketball programs deepen across the Olympic Games Munich 1972 and the Olympic Games Montreal 1976." },
         ],
         paralympic: [
           {
@@ -662,7 +662,7 @@ export const ARCHETYPES: Archetype[] = [
         decade: "1990s",
         yearLabel: "1992–1996",
         olympic: [
-          { sportFamily: "Sprinting", note: "US sprint relays and basketball peak at Barcelona and Atlanta." },
+          { sportFamily: "Sprinting", note: "US sprint relays and basketball peak at the Olympic Games Barcelona 1992 and the Olympic Games Atlanta 1996." },
         ],
         paralympic: [
           {
@@ -677,7 +677,7 @@ export const ARCHETYPES: Archetype[] = [
         decade: "2000s",
         yearLabel: "2000–2008",
         olympic: [
-          { sportFamily: "Basketball", note: "US sprint and basketball programs sustain Olympic medal presence through Sydney and Athens." },
+          { sportFamily: "Basketball", note: "US sprint and basketball programs sustain Olympic medal presence through the Olympic Games Sydney 2000 and the Olympic Games Athens 2004." },
         ],
         paralympic: [
           {

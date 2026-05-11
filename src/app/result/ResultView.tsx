@@ -24,15 +24,34 @@ const ARCHETYPE_COLORS: Record<ArchetypeId, string> = {
   "explosive-pivot": "#c084fc",
 };
 
+const AGE_BANDS: BiometricInput["ageBand"][] = ["youth", "20s", "30s", "40plus"];
+const MOVEMENTS: BiometricInput["movement"][] = [
+  "endurance",
+  "power",
+  "precision",
+  "agility",
+];
+
+function clampNumber(raw: string | null, fallback: number, min: number, max: number): number {
+  if (raw === null || raw.trim() === "") return fallback;
+  const n = Number(raw);
+  if (!Number.isFinite(n)) return fallback;
+  return Math.min(Math.max(n, min), max);
+}
+
+function pickEnum<T extends string>(raw: string | null, allowed: T[], fallback: T): T {
+  if (raw && (allowed as string[]).includes(raw)) return raw as T;
+  return fallback;
+}
+
 export default function ResultView() {
   const sp = useSearchParams();
   const input = useMemo<BiometricInput>(() => {
     return {
-      heightCm: Number(sp.get("h") ?? 178),
-      weightKg: Number(sp.get("w") ?? 75),
-      ageBand: (sp.get("a") as BiometricInput["ageBand"]) ?? "20s",
-      movement:
-        (sp.get("m") as BiometricInput["movement"]) ?? "endurance",
+      heightCm: clampNumber(sp.get("h"), 178, 140, 220),
+      weightKg: clampNumber(sp.get("w"), 75, 40, 160),
+      ageBand: pickEnum(sp.get("a"), AGE_BANDS, "20s"),
+      movement: pickEnum(sp.get("m"), MOVEMENTS, "endurance"),
     };
   }, [sp]);
 
