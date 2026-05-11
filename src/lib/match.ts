@@ -66,5 +66,10 @@ export function matchArchetypes(input: BiometricInput): MatchResult {
       ? [secondary, primary]
       : [primary, secondary];
 
-  return { primary, secondary, paraFirstOrder: paraFirst };
+  const allRanked: ArchetypeMatch[] = ranked.map((r) => ({
+    archetype: byId[r.id],
+    confidence: r.confidence,
+  }));
+
+  return { primary, secondary, paraFirstOrder: paraFirst, allRanked };
 }

@@ -45,35 +45,47 @@ System prompts enforce four invariants on every Gemini call:
 # Install
 npm install
 
-# Add your Gemini API key (optional — app runs with mocks without it)
-copy .env.local.example .env.local
-# then edit .env.local and set GEMINI_API_KEY=...
+# Wire up your credentials (optional — app runs with mocks if missing)
+copy .env.example .env.local
+# then edit .env.local and either:
+#   - set GEMINI_API_KEY=...           (AI Studio path), or
+#   - set GOOGLE_VERTEXAI=1 + GOOGLE_CLOUD_PROJECT=...  (Vertex AI path)
 
 # Run
 npm run dev
 # open http://localhost:3000
 ```
 
-The app degrades gracefully without an API key: every Gemini call returns a deterministic mock response so the UI flow can be demoed and tested end-to-end before credentials are provisioned.
+The app degrades gracefully without credentials: every Gemini call returns a deterministic mock response so the UI flow can be demoed and tested end-to-end before any keys are provisioned. See [`.env.example`](./.env.example) for the full list of supported variables.
+
+### Two auth modes — pick one
+
+| Mode | When to use | Setup |
+|---|---|---|
+| **AI Studio API key** | Quickest path; counts against AI Studio quota | `GEMINI_API_KEY` only |
+| **Vertex AI (recommended for hackathon)** | Uses Google Cloud credits, higher quotas, full model access incl. `imagen-4.0-generate-001` | `gcloud auth application-default login` once, then set `GOOGLE_VERTEXAI=1` and `GOOGLE_CLOUD_PROJECT` |
+
+The same `@google/genai` SDK powers both modes — `src/lib/gemini.ts` switches based on `GOOGLE_VERTEXAI`.
 
 ## Cloud Run deploy
 
-Prerequisites: a GCP project with billing enabled, the `gcloud` CLI, and the Gemini API enabled.
+See [`DEPLOY.md`](./DEPLOY.md) for the full runbook. Short version:
 
 ```powershell
-# Set your project
-gcloud config set project YOUR_PROJECT_ID
-
-# Build + deploy
+# Vertex AI path (recommended — uses Google Cloud credits, no key in env)
 gcloud run deploy throughline `
   --source . `
   --region us-central1 `
   --allow-unauthenticated `
   --min-instances 1 `
-  --set-env-vars GEMINI_API_KEY=YOUR_KEY
+  --set-env-vars "GOOGLE_VERTEXAI=1,GOOGLE_CLOUD_PROJECT=YOUR_PROJECT_ID,GOOGLE_CLOUD_LOCATION=us-central1"
+# Grant Cloud Run's service account Vertex AI access (one-time):
+gcloud projects add-iam-policy-binding YOUR_PROJECT_ID `
+  --member="serviceAccount:YOUR_PROJECT_NUMBER-compute@developer.gserviceaccount.com" `
+  --role="roles/aiplatform.user"
 ```
 
-For judging windows, set `--min-instances 1` so judges do not hit a cold start.
+For judging windows, `--min-instances 1` avoids cold-start spinners. The same Dockerfile listens on `process.env.PORT` (default `8080`) and `HOSTNAME=0.0.0.0`.
 
 ## Data
 

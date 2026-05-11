@@ -45,10 +45,15 @@ export default function AboutPage() {
       <Section title="How matching works">
         <p className="text-stone-300 leading-relaxed">
           Five archetypes are pre-defined from build profiles and movement
-          characteristics that historically appear in Team USA. Your inputs
-          are scored against each archetype centroid and rendered as a
-          softmax confidence — the result is a clustering signal, not a
-          performance score.
+          characteristics that historically appear across Team USA Olympic
+          and Paralympic sport families. The centroids are
+          <strong> illustrative reference points</strong>, hand-built from
+          public sport-family patterns — not learned from athlete data. Your
+          inputs are scored against each centroid (height, weight, and
+          movement preference) and rendered as a softmax confidence. The
+          result is a fan-engagement and storytelling signal, not a
+          competitive prediction, and not a recommendation about what sport
+          you should play.
         </p>
       </Section>
 

@@ -38,6 +38,7 @@ export default function StoryStudio({
     })
       .then((r) => r.json())
       .then((d: { text?: string }) => {
+        if (ctrl.signal.aborted) return;
         if (d.text) setNarrative(d.text);
       })
       .catch(() => {});
@@ -54,6 +55,7 @@ export default function StoryStudio({
     })
       .then((r) => r.json())
       .then((d) => {
+        if (ctrl.signal.aborted) return;
         if (d?.kind === "image") {
           setImage({
             kind: "ready",
@@ -63,7 +65,10 @@ export default function StoryStudio({
           setImage({ kind: "mock" });
         }
       })
-      .catch(() => setImage({ kind: "mock" }));
+      .catch((err) => {
+        if (err?.name === "AbortError" || ctrl.signal.aborted) return;
+        setImage({ kind: "mock" });
+      });
     return () => ctrl.abort();
   }, [archetype.id]);
 
@@ -103,12 +108,20 @@ export default function StoryStudio({
             height={200}
             className="rounded-md border border-border bg-[#080a10]"
           />
+        ) : image.kind === "loading" ? (
+          <SilhouetteLoading />
         ) : (
           <SilhouetteFallback archetypeId={archetype.id} />
         )}
-        {image.kind !== "ready" && (
+        {image.kind === "loading" && (
+          <p className="mt-2 font-mono text-[10px] uppercase tracking-wider text-paralympic">
+            <span className="inline-block size-1.5 rounded-full bg-paralympic mr-1.5 animate-pulse" />
+            Imagen generating · ~15 s
+          </p>
+        )}
+        {image.kind === "mock" && (
           <p className="mt-2 font-mono text-[10px] uppercase tracking-wider text-stone-600">
-            {image.kind === "loading" ? "Generating silhouette…" : "Silhouette · fallback"}
+            Silhouette · fallback
           </p>
         )}
       </div>
@@ -197,4 +210,60 @@ function pcmBase64ToWavDataUrl(base64: string, mimeType: string): string {
 
 function writeString(view: DataView, offset: number, str: string) {
   for (let i = 0; i < str.length; i++) view.setUint8(offset + i, str.charCodeAt(i));
+}
+
+function SilhouetteLoading() {
+  return (
+    <div
+      className="relative w-[200px] h-[200px] rounded-md border border-paralympic/40 bg-[#080a10] overflow-hidden"
+      role="status"
+      aria-label="Generating silhouette image with Imagen"
+    >
+      <div className="absolute inset-0 bg-gradient-to-br from-paralympic/15 via-transparent to-olympic/15 animate-pulse" />
+      <div className="absolute inset-0 silhouette-shimmer" />
+
+      <div className="absolute inset-0 grid place-items-center">
+        <svg
+          width="44"
+          height="44"
+          viewBox="0 0 44 44"
+          aria-hidden="true"
+        >
+          <circle
+            cx="22"
+            cy="22"
+            r="18"
+            fill="none"
+            stroke="#1e293b"
+            strokeWidth="3"
+          />
+          <circle
+            cx="22"
+            cy="22"
+            r="18"
+            fill="none"
+            stroke="#5fb3b3"
+            strokeWidth="3"
+            strokeLinecap="round"
+            strokeDasharray="40 113"
+            transform="rotate(-90 22 22)"
+          >
+            <animateTransform
+              attributeName="transform"
+              type="rotate"
+              from="0 22 22"
+              to="360 22 22"
+              dur="1.4s"
+              repeatCount="indefinite"
+            />
+          </circle>
+        </svg>
+      </div>
+
+      <div className="absolute bottom-2 left-2 right-2 flex items-center justify-between font-mono text-[9px] uppercase tracking-wider">
+        <span className="text-paralympic">Imagen</span>
+        <span className="text-stone-500">generating</span>
+      </div>
+    </div>
+  );
 }

@@ -16,12 +16,25 @@ Hard rules — never break these:
 4. Refuse questions that ask for performance predictions, training prescriptions, or medical advice.
 5. Do not invent data. If unsure, say so plainly.`;
 
+function isVertexMode(): boolean {
+  const v = process.env.GOOGLE_VERTEXAI;
+  return v === "1" || v?.toLowerCase() === "true";
+}
+
 function hasApiKey(): boolean {
+  if (isVertexMode()) return !!process.env.GOOGLE_CLOUD_PROJECT;
   return !!process.env.GEMINI_API_KEY || !!process.env.GOOGLE_API_KEY;
 }
 
 async function getClient() {
   const mod = await import("@google/genai");
+  if (isVertexMode()) {
+    return new mod.GoogleGenAI({
+      vertexai: true,
+      project: process.env.GOOGLE_CLOUD_PROJECT,
+      location: process.env.GOOGLE_CLOUD_LOCATION ?? "us-central1",
+    });
+  }
   const apiKey = process.env.GEMINI_API_KEY ?? process.env.GOOGLE_API_KEY;
   return new mod.GoogleGenAI({ apiKey });
 }

@@ -24,6 +24,7 @@ export type Archetype = {
   paralympicFamilies: { sport: string; classification: string }[];
   paraLeaning: boolean;
   eras: Era[];
+  chatSuggestions: string[];
 };
 
 export type BiometricInput = {
@@ -42,4 +43,5 @@ export type MatchResult = {
   primary: ArchetypeMatch;
   secondary: ArchetypeMatch;
   paraFirstOrder: [ArchetypeMatch, ArchetypeMatch];
+  allRanked: ArchetypeMatch[];
 };

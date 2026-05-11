@@ -35,14 +35,15 @@ Built for **Challenge 4: The Athlete Archetype Agent** of the Team USA × Google
 
 ### Key features
 
-- **Five Team USA archetypes** clustered from US Olympic and Paralympic sport-family data: Reach & Rhythm, Compact Power, Aerobic Engine, Precision Control, Explosive Pivot. Each has Paralympic AND Olympic sport families pre-mapped.
+- **Five illustrative Team USA archetypes** seeded from US Olympic and Paralympic sport-family patterns: Reach & Rhythm, Compact Power, Aerobic Engine, Precision Control, Explosive Pivot. Each has Paralympic AND Olympic sport families pre-mapped at the sport-family + classification level — no individual athletes.
 - **120-year timeline** with Olympic and Paralympic columns of equal width per era. Pre-1960 cards acknowledge that the Paralympic Games begin in 1960 instead of fabricating data.
-- **Cluster scatter visualization** with one-standard-deviation ellipses showing the user's position relative to all 5 archetype centroids — proves the clustering is real.
+- **Cluster scatter visualization** with one-standard-deviation ellipses showing the user's position relative to all 5 illustrative archetype centroids — a fan-engagement signal, not a competitive prediction.
+- **All-five exploration** — the result page leads with the top two matches as hero cards and exposes the remaining three as one-tap pills, so every archetype is discoverable from a single screen.
 - **Story Studio** (3 Gemini surfaces in one screen):
-  - **Narrative** — Gemini 2.5 Flash generates a personalized ~100-word throughline using strict conditional phrasing.
-  - **Audio** — Gemini 2.5 TTS reads the narrative aloud.
-  - **Silhouette card** — abstract stylized geometry (real Imagen / Nano Banana when billing is enabled; deterministic SVG fallback otherwise). NIL-safe by design — never shows real athletes.
-- **Analyst chat** — Gemini 2.5 Flash answers follow-up questions about classifications, eras, and archetypes, with the same length and analytical depth required for Paralympic content as Olympic.
+  - **Narrative** — `gemini-2.5-pro` generates a personalized ~100-word throughline using strict conditional phrasing.
+  - **Audio** — `gemini-2.5-flash-preview-tts` (Kore voice) reads the narrative aloud.
+  - **Silhouette card** — `imagen-4.0-generate-001` produces an abstract, geometric silhouette; deterministic SVG fallback when no credentials are present. NIL-safe by design — never shows real athletes.
+- **Analyst chat** — `gemini-2.5-flash` answers follow-up questions about classifications, eras, and archetypes, with the same length and analytical depth required for Paralympic content as Olympic.
 
 ### How Gemini and Google Cloud are used
 
@@ -72,9 +73,9 @@ System prompts on every Gemini call enforce four invariants: conditional phrasin
 
 ### Findings
 
-- Five clusters cleanly separate Team USA archetypes when projected onto height × weight × movement preference.
+- The five illustrative archetypes separate cleanly in the height × weight × movement-preference space, which is what makes the scatter plot readable — but the centroids are hand-built reference points, not learned from athlete data, and the app is labeled that way.
 - Most archetypes have direct Paralympic counterparts when matched at the sport-family + classification level (Reach & Rhythm ↔ Para swimming S5–S10 + Para rowing PR1–PR3; Aerobic Engine ↔ Para handcycling H1–H5 + Para marathon T54; etc.).
-- Where ellipses overlap on the scatter plot, those archetypes share build territory in real Team USA history — the visual reinforces that there is no single Team USA body type.
+- Where ellipses overlap on the scatter plot, those archetypes share build territory across Team USA history — the visual reinforces that there is no single Team USA body type.
 
 ## Required URLs (fill in before submitting)
 
@@ -95,10 +96,11 @@ System prompts on every Gemini call enforce four invariants: conditional phrasin
 1. Open the hosted URL.
 2. Click "Begin."
 3. Enter approximate height, weight, age band, and movement preference.
-4. View your top 2 archetypes — Paralympic-leaning is shown first by design.
-5. Click "Hear your throughline" to hear the Gemini-narrated audio.
-6. Scroll the era timeline to see Olympic + Paralympic sport families side-by-side from 1904 → 2024.
-7. Click "Open analyst chat" and try the suggested questions about classifications.
+4. View your top 2 archetypes as hero cards — Paralympic-leaning is shown first by design.
+5. Tap any of the three "Also explore" pills below to swap the story, timeline, and chat to a different archetype.
+6. Click "Hear your throughline" to hear the Gemini-narrated audio.
+7. Scroll the era timeline to see Olympic + Paralympic sport families side-by-side from 1904 → 2024.
+8. Click "Open analyst chat" and try the suggested questions about classifications.
 ```
 
 ## Compliance notes (for judges)

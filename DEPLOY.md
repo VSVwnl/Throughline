@@ -26,6 +26,7 @@ In the console, go to **APIs & Services → Library** and enable each of these (
 - **Cloud Run Admin API**
 - **Cloud Build API**
 - **Artifact Registry API**
+- **Vertex AI API** (only if you plan to use the Vertex AI auth path below — recommended for the hackathon to use your Google Cloud credits)
 
 Each takes 10–30 seconds to enable.
 
@@ -45,10 +46,41 @@ Each takes 10–30 seconds to enable.
 
 ## 1. Deploy (run from the project folder)
 
+Pick **one** of the two auth modes below. The Vertex AI path is recommended for hackathon submissions because it draws on the $300 Google Cloud credits and gives full access to `imagen-4.0-generate-001`.
+
+### 1A. Vertex AI mode (recommended)
+
 ```powershell
 cd C:\Personal\Hackathons\Google\throughline
 
-# Replace YOUR_PROJECT_ID and YOUR_GEMINI_KEY before running
+# Replace YOUR_PROJECT_ID before running
+gcloud run deploy throughline `
+  --source . `
+  --region us-central1 `
+  --project YOUR_PROJECT_ID `
+  --allow-unauthenticated `
+  --min-instances 1 `
+  --max-instances 5 `
+  --memory 512Mi `
+  --cpu 1 `
+  --timeout 60s `
+  --set-env-vars "GOOGLE_VERTEXAI=1,GOOGLE_CLOUD_PROJECT=YOUR_PROJECT_ID,GOOGLE_CLOUD_LOCATION=us-central1"
+```
+
+Then grant the Cloud Run service account permission to call Vertex AI (one-time):
+
+```powershell
+# Get your project number
+$projectNumber = gcloud projects describe YOUR_PROJECT_ID --format="value(projectNumber)"
+
+gcloud projects add-iam-policy-binding YOUR_PROJECT_ID `
+  --member="serviceAccount:$projectNumber-compute@developer.gserviceaccount.com" `
+  --role="roles/aiplatform.user"
+```
+
+### 1B. AI Studio key mode (fallback)
+
+```powershell
 gcloud run deploy throughline `
   --source . `
   --region us-central1 `
@@ -62,7 +94,7 @@ gcloud run deploy throughline `
   --set-env-vars "GEMINI_API_KEY=YOUR_GEMINI_KEY"
 ```
 
-What happens:
+What happens in either mode:
 1. `gcloud` zips your local source.
 2. Uploads it to Cloud Build.
 3. Cloud Build reads your `Dockerfile` and builds the image (~3–5 min first time).
@@ -96,7 +128,10 @@ Open the URL in an **incognito** window to confirm it's not gated by your Google
 | `Step #X: Build failed: ... npm ci` | Look at the build log — usually a TypeScript or lint error. Run `npm run build` locally first to catch these before deploy. |
 | `The user-provided container failed to start` | Cloud Run port binding — confirm Dockerfile sets `ENV PORT=8080` and `HOSTNAME=0.0.0.0`. Both are already set in the project's Dockerfile. |
 | `Quota exceeded for resource ...` | Region is full. Try a different region: `us-east1` or `us-west1`. |
-| `Request had insufficient authentication scopes` | Run `gcloud auth application-default login`. |
+| `Request had insufficient authentication scopes` | Locally, run `gcloud auth application-default login`. On Cloud Run, ensure the runtime service account has the `roles/aiplatform.user` role (see step 1A). |
+| `Vertex AI API has not been used in project ...` | Enable the Vertex AI API in step 0c, then retry. |
+| `PERMISSION_DENIED: ... aiplatform.endpoints.predict` | The Cloud Run service account is missing `roles/aiplatform.user`. Re-run the `add-iam-policy-binding` from step 1A. |
+| Narrative or image returns mock content | Either credentials are missing or the wrong model is set. In Cloud Run console, confirm env vars: `GOOGLE_VERTEXAI=1`, `GOOGLE_CLOUD_PROJECT`, `GOOGLE_CLOUD_LOCATION`. |
 
 ## 4. Post-deploy hardening (optional but cheap)
 

@@ -8,12 +8,13 @@ const CENTROIDS: {
   height: number;
   weight: number;
   color: string;
+  movement: BiometricInput["movement"];
 }[] = [
-  { id: "reach-rhythm", name: "Reach & Rhythm", height: 188, weight: 78, color: "#5fb3b3" },
-  { id: "compact-power", name: "Compact Power", height: 168, weight: 82, color: "#e85a4f" },
-  { id: "aerobic-engine", name: "Aerobic Engine", height: 178, weight: 65, color: "#7dd3a0" },
-  { id: "precision-control", name: "Precision Control", height: 174, weight: 70, color: "#d4af37" },
-  { id: "explosive-pivot", name: "Explosive Pivot", height: 180, weight: 80, color: "#c084fc" },
+  { id: "reach-rhythm", name: "Reach & Rhythm", height: 188, weight: 78, color: "#5fb3b3", movement: "endurance" },
+  { id: "compact-power", name: "Compact Power", height: 168, weight: 82, color: "#e85a4f", movement: "power" },
+  { id: "aerobic-engine", name: "Aerobic Engine", height: 178, weight: 65, color: "#7dd3a0", movement: "endurance" },
+  { id: "precision-control", name: "Precision Control", height: 174, weight: 70, color: "#d4af37", movement: "precision" },
+  { id: "explosive-pivot", name: "Explosive Pivot", height: 180, weight: 80, color: "#c084fc", movement: "agility" },
 ];
 
 const X_MIN = 150;
@@ -143,6 +144,7 @@ export default function ClusterScatter({
             const cx = projectX(c.height);
             const cy = projectY(c.weight);
             const isPrimary = c.id === primaryArchetypeId;
+            const movementMatch = c.movement === input.movement;
             return (
               <g key={c.id}>
                 <ellipse
@@ -172,6 +174,18 @@ export default function ClusterScatter({
                   stroke={isPrimary ? "#f5f5f4" : "transparent"}
                   strokeWidth={isPrimary ? 2 : 0}
                 />
+                {movementMatch && (
+                  <circle
+                    cx={cx}
+                    cy={cy}
+                    r={9}
+                    fill="none"
+                    stroke="#f5f5f4"
+                    strokeWidth={1}
+                    strokeDasharray="2 2"
+                    opacity={0.8}
+                  />
+                )}
               </g>
             );
           })}
@@ -209,38 +223,56 @@ export default function ClusterScatter({
           </text>
         </svg>
 
-        <Legend primaryArchetypeId={primaryArchetypeId} />
+        <Legend primaryArchetypeId={primaryArchetypeId} userMovement={input.movement} />
       </div>
 
       <p className="mt-4 text-xs text-stone-500 leading-relaxed">
-        Each colored dot is a Team USA archetype centroid; the surrounding
-        ellipse marks roughly one standard deviation of historical spread
-        (±{SPREAD_HEIGHT_CM}cm height, ±{SPREAD_WEIGHT_KG}kg weight).
-        All ellipses are the same size — your matched archetype is drawn
-        with a solid outline and a bordered dot, not a bigger halo. Movement
-        preference is factored separately.
+        The scatter shows two of three archetype dimensions: height and
+        weight. The third — <span className="text-stone-300">movement preference</span> — is shown
+        as a <span className="text-stone-300">dashed white ring</span> around any centroid whose
+        movement style matches yours, and as a tag in the legend. Match
+        scores combine all three, so an archetype that&apos;s farther from
+        you in 2D can still rank higher when your movement matches it.
+        Centroids are <span className="text-stone-300">illustrative reference points</span> built
+        from US Olympic + Paralympic sport-family patterns — not learned from
+        athlete data, and not a competitive prediction.
       </p>
     </div>
   );
 }
 
-function Legend({ primaryArchetypeId }: { primaryArchetypeId: ArchetypeId }) {
+function Legend({
+  primaryArchetypeId,
+  userMovement,
+}: {
+  primaryArchetypeId: ArchetypeId;
+  userMovement: BiometricInput["movement"];
+}) {
   return (
     <div>
       <div className="font-mono text-[10px] uppercase tracking-wider text-stone-500 mb-2">
         Archetypes
       </div>
       <ul className="space-y-2">
-        <LegendRow color="#f5f5f4" label="You" subtle="your inputs" highlighted />
-        {CENTROIDS.map((c) => (
-          <LegendRow
-            key={c.id}
-            color={c.color}
-            label={c.name}
-            subtle={`${c.height}cm · ${c.weight}kg`}
-            highlighted={c.id === primaryArchetypeId}
-          />
-        ))}
+        <LegendRow
+          color="#f5f5f4"
+          label="You"
+          subtle={`movement: ${userMovement}`}
+          highlighted
+        />
+        {CENTROIDS.map((c) => {
+          const movementMatch = c.movement === userMovement;
+          return (
+            <LegendRow
+              key={c.id}
+              color={c.color}
+              label={c.name}
+              subtle={`${c.height}cm · ${c.weight}kg · ${c.movement}${movementMatch ? " ✓" : ""}`}
+              highlighted={c.id === primaryArchetypeId}
+              movementMatch={movementMatch}
+            />
+          );
+        })}
       </ul>
     </div>
   );
@@ -251,11 +283,13 @@ function LegendRow({
   label,
   subtle,
   highlighted,
+  movementMatch,
 }: {
   color: string;
   label: string;
   subtle: string;
   highlighted?: boolean;
+  movementMatch?: boolean;
 }) {
   return (
     <li className="flex items-baseline gap-2 text-sm">
@@ -266,7 +300,13 @@ function LegendRow({
       <span className={highlighted ? "text-stone-100 font-medium" : "text-stone-300"}>
         {label}
       </span>
-      <span className="font-mono text-[10px] text-stone-600 ml-auto">{subtle}</span>
+      <span
+        className={`font-mono text-[10px] ml-auto ${
+          movementMatch ? "text-stone-300" : "text-stone-600"
+        }`}
+      >
+        {subtle}
+      </span>
     </li>
   );
 }

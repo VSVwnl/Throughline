@@ -34,3 +34,19 @@ body {
 ::selection { background: rgba(95, 179, 179, 0.35); }
 
 .gradient-text-disallowed { /* intentional reminder: no gradients in design system */ }
+
+.silhouette-shimmer {
+  background: linear-gradient(
+    100deg,
+    transparent 30%,
+    rgba(95, 179, 179, 0.08) 50%,
+    transparent 70%
+  );
+  background-size: 200% 100%;
+  animation: silhouette-shimmer-slide 1.8s ease-in-out infinite;
+}
+
+@keyframes silhouette-shimmer-slide {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}

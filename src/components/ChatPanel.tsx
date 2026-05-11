@@ -4,12 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import type { Archetype } from "@/lib/types";
 import type { ChatTurn } from "@/lib/gemini";
 
-const SUGGESTIONS = [
-  "How is the T54 classification structured?",
-  "What does an SH1 air rifle event involve?",
-  "How does this archetype show up in Para sport?",
-];
-
 export default function ChatPanel({
   archetype,
   onClose,
@@ -17,6 +11,7 @@ export default function ChatPanel({
   archetype: Archetype;
   onClose: () => void;
 }) {
+  const suggestions = archetype.chatSuggestions;
   const [messages, setMessages] = useState<ChatTurn[]>([]);
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
@@ -76,8 +71,10 @@ export default function ChatPanel({
         <div ref={scrollRef} className="flex-1 overflow-y-auto px-5 py-4 space-y-3">
           {messages.length === 0 && (
             <div className="space-y-2">
-              <p className="text-xs text-stone-500 mb-2">Try one of these:</p>
-              {SUGGESTIONS.map((s) => (
+              <p className="text-xs text-stone-500 mb-2">
+                Try one of these about {archetype.name}:
+              </p>
+              {suggestions.map((s) => (
                 <button
                   key={s}
                   onClick={() => send(s)}

@@ -25,18 +25,18 @@
 **On screen:** The biometric form. Move sliders for height (around 178cm) and weight (around 75kg). Pick an age band and a movement preference. Click "Find my archetype."
 
 **Voiceover:**
-> "I'm entering my own build — height, weight, age range, movement style. No account, no signup. The result page resolves my top two Team USA archetypes, with confidence scores. The first card shown is the Paralympic-leaning archetype, by design — Throughline's Olympic and Paralympic results are always treated with equal prominence."
+> "I'm entering my own build — height, weight, age range, movement style. No account, no signup. The result page leads with my top two Team USA archetypes as hero cards, then exposes the remaining three as one-tap pills below — every archetype is reachable from a single screen. The first card is the Paralympic-leaning archetype by design — Olympic and Paralympic results are always treated with equal prominence."
 
-**Action:** Pause briefly on the two archetype cards so the viewer can read them.
+**Action:** Pause briefly on the two archetype cards. Tap one of the three pills below to show that the story, timeline, and chat update live.
 
 ---
 
-### 1:00 – 1:30 · The cluster scatter (proves the ML is real)
+### 1:00 – 1:30 · The cluster scatter (transparent matching)
 
 **On screen:** Scroll down to the cluster scatter chart.
 
 **Voiceover:**
-> "This is where my inputs land in archetype space. The five Team USA archetypes are real cluster centroids — the ellipses around them mark roughly one standard deviation of historical spread. Where the ellipses overlap is where archetypes blend into each other. That overlap is the point: Team USA is not one body type."
+> "This is where my inputs land in archetype space. The five archetype centroids are hand-built reference points based on US Olympic and Paralympic sport-family patterns — illustrative, not learned from athlete data, and labeled that way in the app. The ellipses mark roughly one standard deviation of build spread; the dashed white ring marks any archetype whose movement preference matches mine. Where ellipses overlap is where archetypes blend — the point being that Team USA is not one body type."
 
 **Action:** Hover briefly to show the highlighted match.
 
@@ -58,7 +58,7 @@
 **On screen:** Scroll up to the story section. Click "Hear your throughline."
 
 **Voiceover (over the audio playback):**
-> "Gemini 2.5 generates a personalized 90-word throughline that connects my archetype across 120 years, with conditional phrasing throughout — 'could align with,' never 'you should.' Then Gemini 2.5 TTS reads it aloud. The silhouette card to the left is generated as an abstract style — no faces, no real athletes."
+> "Gemini 2.5 Pro generates a personalized 90-word throughline that connects my archetype across 120 years, with conditional phrasing throughout — 'could align with,' never 'you should.' Gemini 2.5 Flash TTS reads it aloud. The silhouette card on the left is rendered by Imagen 4 as an abstract, geometric form — no faces, no real athletes, NIL-safe by design."
 
 **Action:** Let the audio play for ~10 seconds, then continue speaking over it.
 
@@ -79,12 +79,12 @@
 
 **On screen:** Quickly cut to:
 1. Google Cloud Console showing the deployed Cloud Run service (1 second).
-2. AI Studio or `src/lib/gemini.ts` open in your editor showing `gemini-2.5-flash` and `gemini-2.5-flash-preview-tts` model names (1 second).
+2. `src/lib/gemini.ts` open in your editor with the four model names visible — `gemini-2.5-pro`, `gemini-2.5-flash`, `gemini-2.5-flash-preview-tts`, `imagen-4.0-generate-001` (1 second).
 3. The GitHub repo showing "Apache-2.0 license" in the About sidebar (1 second).
 4. Back to the app's hero page.
 
 **Voiceover (rapid):**
-> "Built with the Gemini API — Flash for reasoning, Flash TTS for audio. Deployed on Google Cloud Run. Apache-2.0 licensed. Throughline. Find yourself in 120 years of Team USA."
+> "Four Gemini surfaces — Pro for narrative, Flash for chat, Flash TTS for audio, Imagen 4 for the silhouette card — wired through Vertex AI and Cloud Run. Apache-2.0 licensed. Throughline. Find yourself in 120 years of Team USA."
 
 ---
 
