@@ -49,6 +49,25 @@ const HALO_RY = SPREAD_WEIGHT_KG * PX_PER_KG;
 const X_TICKS = [150, 165, 180, 195, 210];
 const Y_TICKS = [50, 65, 80, 95, 110];
 
+function starPoints(
+  cx: number,
+  cy: number,
+  rOuter: number,
+  rInner: number,
+  points = 5,
+): string {
+  const step = Math.PI / points;
+  const coords: string[] = [];
+  for (let i = 0; i < points * 2; i++) {
+    const r = i % 2 === 0 ? rOuter : rInner;
+    const angle = -Math.PI / 2 + i * step;
+    const x = cx + r * Math.cos(angle);
+    const y = cy + r * Math.sin(angle);
+    coords.push(`${x.toFixed(2)},${y.toFixed(2)}`);
+  }
+  return coords.join(" ");
+}
+
 export default function ClusterScatter({
   input,
   primaryArchetypeId,
@@ -210,17 +229,7 @@ export default function ClusterScatter({
             strokeDasharray="2 2"
             opacity="0.6"
           />
-          <circle cx={userX} cy={userY} r={6} fill="#f5f5f4" />
-          <text
-            x={userX + 12}
-            y={userY - 12}
-            fill="#f5f5f4"
-            fontSize="11"
-            fontFamily="var(--font-mono)"
-            fontWeight="600"
-          >
-            you
-          </text>
+          <polygon points={starPoints(userX, userY, 9, 3.6)} fill="#f5f5f4" />
         </svg>
 
         <Legend primaryArchetypeId={primaryArchetypeId} userMovement={input.movement} />
@@ -259,6 +268,7 @@ function Legend({
           label="You"
           subtle={`movement: ${userMovement}`}
           highlighted
+          shape="star"
         />
         {CENTROIDS.map((c) => {
           const movementMatch = c.movement === userMovement;
@@ -284,19 +294,31 @@ function LegendRow({
   subtle,
   highlighted,
   movementMatch,
+  shape = "dot",
 }: {
   color: string;
   label: string;
   subtle: string;
   highlighted?: boolean;
   movementMatch?: boolean;
+  shape?: "dot" | "star";
 }) {
   return (
     <li className="flex items-baseline gap-2 text-sm">
-      <span
-        className="inline-block size-2.5 rounded-full shrink-0 mt-[3px]"
-        style={{ background: color }}
-      />
+      {shape === "star" ? (
+        <svg
+          viewBox="-10 -10 20 20"
+          className="inline-block size-3 shrink-0 mt-[2px]"
+          aria-hidden="true"
+        >
+          <polygon points={starPoints(0, 0, 9, 3.6)} fill={color} />
+        </svg>
+      ) : (
+        <span
+          className="inline-block size-2.5 rounded-full shrink-0 mt-[3px]"
+          style={{ background: color }}
+        />
+      )}
       <span className={highlighted ? "text-stone-100 font-medium" : "text-stone-300"}>
         {label}
       </span>
