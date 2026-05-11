@@ -13,6 +13,7 @@ import type {
 import ChatPanel from "@/components/ChatPanel";
 import StoryStudio from "@/components/StoryStudio";
 import SilhouetteFallback from "@/components/SilhouetteFallback";
+import ClusterScatter from "@/components/ClusterScatter";
 
 export default function ResultView() {
   const sp = useSearchParams();
@@ -75,6 +76,10 @@ export default function ResultView() {
             isPrimary={i === 0}
           />
         ))}
+      </section>
+
+      <section className="mt-10">
+        <ClusterScatter input={input} primaryArchetypeId={active.archetype.id} />
       </section>
 
       <section className="mt-16">
