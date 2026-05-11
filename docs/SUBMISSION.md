@@ -81,7 +81,7 @@ System prompts on every Gemini call enforce four invariants: conditional phrasin
 
 | Field | Value |
 |---|---|
-| Hosted project URL | `https://throughline-XXXXX-uc.a.run.app` |
+| Hosted project URL | `https://throughline-861789748163.us-central1.run.app` |
 | Public code repository | `https://github.com/YOUR_USERNAME/throughline` |
 | Demo video | `https://youtu.be/YOUR_UNLISTED_VIDEO_ID` |
 | License | Apache 2.0 (visible in repo About sidebar) |

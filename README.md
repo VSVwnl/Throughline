@@ -6,7 +6,7 @@ A submission for the **Team USA × Google Cloud Hackathon — Challenge 4: The A
 
 Throughline is a multimodal Gemini agent that maps a fan's biometric inputs to one of five Team USA athlete archetypes, then walks that archetype across roughly 120 years of US Olympic **and** Paralympic sport families with equal analytical depth — narrated in text, audio, and image by Gemini.
 
-- **Live demo:** _(set after Cloud Run deploy)_
+- **Live demo:** https://throughline-861789748163.us-central1.run.app
 - **Demo video:** _(YouTube unlisted link)_
 - **License:** Apache 2.0 (see [`LICENSE`](./LICENSE))
 
