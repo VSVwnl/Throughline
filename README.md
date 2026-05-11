@@ -19,9 +19,11 @@ Team USA has never had one body type. Throughline lets any fan see themselves in
 | Lane | Capability | Model | Purpose |
 |---|---|---|---|
 | Narrative | Reasoning + long context | `gemini-2.5-pro` | Personal 120-year throughline narrative |
-| Audio | Multimodality | `gemini-2.5-flash-preview-tts` | Reads the narrative aloud |
-| Silhouette | Multimodality | `imagen-4.0-generate-001` | Stylized abstract silhouette card |
+| Audio | Multimodality | `gemini-2.5-flash-preview-tts` | Reads the narrative aloud (Kore voice) |
+| Silhouette | Multimodality | `imagen-4.0-generate-001` | Stylized abstract silhouette card, NIL-safe |
 | Chat | Reasoning | `gemini-2.5-flash` | Follow-up Q&A with equal Olympic/Paralympic depth |
+
+All four models can be overridden via `GEMINI_NARRATIVE_MODEL`, `GEMINI_CHAT_MODEL`, `GEMINI_TTS_MODEL`, and `GEMINI_IMAGE_MODEL` environment variables — useful when staying inside the free-tier limits.
 
 System prompts enforce four invariants on every Gemini call:
 

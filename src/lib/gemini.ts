@@ -1,11 +1,11 @@
 import type { Archetype } from "@/lib/types";
 
-const MODEL_TEXT = "gemini-2.5-flash";
+const MODEL_TEXT = process.env.GEMINI_CHAT_MODEL ?? "gemini-2.5-flash";
 const MODEL_NARRATIVE =
-  process.env.GEMINI_NARRATIVE_MODEL ?? "gemini-2.5-flash";
-const MODEL_TTS = "gemini-2.5-flash-preview-tts";
+  process.env.GEMINI_NARRATIVE_MODEL ?? "gemini-2.5-pro";
+const MODEL_TTS = process.env.GEMINI_TTS_MODEL ?? "gemini-2.5-flash-preview-tts";
 const MODEL_IMAGE =
-  process.env.GEMINI_IMAGE_MODEL ?? "gemini-2.5-flash-image";
+  process.env.GEMINI_IMAGE_MODEL ?? "imagen-4.0-generate-001";
 
 const SYSTEM_RULES = `You are the Throughline analyst for Team USA.
 

@@ -48,9 +48,10 @@ Built for **Challenge 4: The Athlete Archetype Agent** of the Team USA × Google
 
 | Capability | Model | What it does |
 |---|---|---|
-| Reasoning + long context | `gemini-2.5-flash` | Personal narrative generation; chat responses |
-| Multimodality (audio) | `gemini-2.5-flash-preview-tts` | Reads the narrative aloud |
-| Multimodality (image) | `gemini-2.5-flash-image` ("Nano Banana") / Imagen 4 | Abstract archetype silhouette card |
+| Reasoning + long context (narrative) | `gemini-2.5-pro` | 120-year personalized throughline narrative |
+| Reasoning (chat) | `gemini-2.5-flash` | Follow-up Q&A with equal Olympic / Paralympic depth |
+| Multimodality (audio) | `gemini-2.5-flash-preview-tts` | Reads the narrative aloud (Kore voice) |
+| Multimodality (image) | `imagen-4.0-generate-001` | Abstract archetype silhouette card, NIL-safe |
 | Hosting | **Cloud Run** | Containerized Next.js app, `min-instances=1` |
 
 System prompts on every Gemini call enforce four invariants: conditional phrasing only ("could align with"), equal Olympic/Paralympic depth, no real athletes named, refusal of performance prediction.
