@@ -56,7 +56,7 @@ export default function ResultView() {
 
   const result = useMemo(() => matchArchetypes(input), [input]);
   const [activeId, setActiveId] = useState<string | null>(null);
-  const [chatOpen, setChatOpen] = useState(false);
+  const [mobileChatOpen, setMobileChatOpen] = useState(false);
   const [paraLens, setParaLens] = useState(true);
   const paraLeading = paraLens;
 
@@ -70,7 +70,7 @@ export default function ResultView() {
   );
 
   return (
-    <main className="flex-1 px-6 py-12 max-w-6xl mx-auto w-full">
+    <main className="relative flex-1 px-6 py-12 pb-28 md:pb-12 md:pr-[calc(20rem+2.5rem)] max-w-6xl mx-auto w-full">
       <header className="flex items-center justify-between mb-8">
         <Link
           href="/"
@@ -145,8 +145,8 @@ export default function ResultView() {
           ))}
         </div>
         <p className="mt-3 text-xs text-stone-500 leading-relaxed max-w-2xl">
-          Tap any of the five to swap the story, timeline, and analyst chat
-          below. Olympic and Paralympic depth stays equal across all archetypes.
+          Tap any of the five to swap the story, timeline, and analyst chat.
+          Olympic and Paralympic depth stays equal across all archetypes.
         </p>
       </section>
 
@@ -180,7 +180,7 @@ export default function ResultView() {
         />
       </section>
 
-      <section className="mt-16">
+      <section className="mt-16 mb-24 md:mb-12">
         <SectionHeader
           eyebrow="Throughline"
           title={`${active.archetype.name} across 120 years of Team USA.`}
@@ -188,25 +188,34 @@ export default function ResultView() {
         <ThroughlineGraph key={active.archetype.id} archetype={active.archetype} />
       </section>
 
-      <section className="mt-16 mb-24">
-        <SectionHeader
-          eyebrow="Ask the analyst"
-          title="Have a question about this archetype, an era, or a Paralympic classification?"
-        />
-        <button
-          onClick={() => setChatOpen(true)}
-          className="px-5 py-3 rounded-md bg-stone-100 text-[#0a0d14] font-medium hover:bg-white transition-colors"
-        >
-          Open analyst chat →
-        </button>
-      </section>
-
-      {chatOpen && (
+      <aside
+        className="hidden md:flex fixed top-24 right-6 bottom-6 z-40 w-80"
+        aria-label="Analyst chat"
+      >
         <ChatPanel
           key={`${active.archetype.id}-${paraLeading ? "para" : "oly"}`}
           archetype={active.archetype}
           paraLeading={paraLeading}
-          onClose={() => setChatOpen(false)}
+        />
+      </aside>
+
+      {!mobileChatOpen && (
+        <button
+          type="button"
+          onClick={() => setMobileChatOpen(true)}
+          className="md:hidden fixed bottom-5 right-5 z-40 rounded-full border border-paralympic/50 bg-[#0a0d14] px-4 py-3 text-sm font-medium text-stone-100 shadow-lg shadow-black/40"
+        >
+          Analyst chat
+        </button>
+      )}
+
+      {mobileChatOpen && (
+        <ChatPanel
+          key={`${active.archetype.id}-${paraLeading ? "para" : "oly"}-mobile`}
+          archetype={active.archetype}
+          paraLeading={paraLeading}
+          layout="drawer"
+          onClose={() => setMobileChatOpen(false)}
         />
       )}
     </main>

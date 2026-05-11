@@ -8,10 +8,12 @@ export default function ChatPanel({
   archetype,
   paraLeading,
   onClose,
+  layout = "docked",
 }: {
   archetype: Archetype;
   paraLeading: boolean;
-  onClose: () => void;
+  onClose?: () => void;
+  layout?: "docked" | "drawer";
 }) {
   const suggestions = paraLeading
     ? archetype.chatSuggestionsPara
@@ -108,88 +110,100 @@ export default function ChatPanel({
     }
   }
 
-  return (
-    <div className="fixed inset-0 z-50 flex justify-end bg-black/40">
-      <div className="w-full max-w-md h-full bg-[#0a0d14] border-l border-border flex flex-col">
-        <div className="flex items-center justify-between px-5 py-4 border-b border-border">
-          <div>
-            <div className="font-mono text-[10px] uppercase tracking-wider text-stone-500">
-              Analyst chat · {archetype.name}
-            </div>
-            <div className="text-sm font-medium mt-1">
-              {paraLeading ? "Paralympic" : "Olympic"} lens · equal depth for both sides.
-            </div>
+  const panel = (
+    <div className="flex h-full min-h-0 flex-col overflow-hidden rounded-lg border border-border bg-[#0a0d14] shadow-2xl shadow-black/50">
+      <div className="flex shrink-0 items-center justify-between gap-3 border-b border-border px-4 py-3">
+        <div className="min-w-0">
+          <div className="font-mono text-[10px] uppercase tracking-wider text-stone-500">
+            Analyst chat · {archetype.name}
           </div>
+          <div className="mt-1 text-sm font-medium leading-snug">
+            {paraLeading ? "Paralympic" : "Olympic"} lens · equal depth for both sides.
+          </div>
+        </div>
+        {onClose && (
           <button
+            type="button"
             onClick={onClose}
-            className="text-stone-500 hover:text-stone-100 text-sm"
+            className="shrink-0 text-sm text-stone-500 hover:text-stone-100"
           >
             Close ✕
           </button>
-        </div>
-
-        <div ref={scrollRef} className="flex-1 overflow-y-auto px-5 py-4 space-y-3">
-          {messages.length === 0 && (
-            <div className="space-y-2">
-              <p className="text-xs text-stone-500 mb-2">
-                Try one of these about {archetype.name}:
-              </p>
-              {suggestions.map((s) => (
-                <button
-                  key={s}
-                  onClick={() => send(s)}
-                  className="block w-full text-left text-sm border border-border rounded-md px-3 py-2 hover:border-stone-600 transition-colors"
-                >
-                  {s}
-                </button>
-              ))}
-            </div>
-          )}
-          {messages.map((m, i) => (
-            <div
-              key={i}
-              className={`text-sm leading-relaxed rounded-md px-3 py-2 ${
-                m.role === "user"
-                  ? "bg-surface-2 border border-border"
-                  : "bg-transparent border border-paralympic/40"
-              }`}
-            >
-              <div className="font-mono text-[10px] uppercase tracking-wider text-stone-500 mb-1">
-                {m.role === "user" ? "You" : "Analyst"}
-              </div>
-              {m.text}
-            </div>
-          ))}
-          {busy &&
-            messages.length > 0 &&
-            messages[messages.length - 1]?.role === "model" &&
-            messages[messages.length - 1]?.text === "" && (
-              <p className="text-xs text-stone-500 font-mono">Analyst thinking…</p>
-            )}
-        </div>
-
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            send(input);
-          }}
-          className="border-t border-border px-4 py-3 flex gap-2"
-        >
-          <input
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder="Ask about an era, a classification, or this archetype…"
-            className="flex-1 bg-surface border border-border rounded-md px-3 py-2 text-sm focus:outline-none focus:border-paralympic"
-          />
-          <button
-            type="submit"
-            disabled={busy || !input.trim()}
-            className="px-4 py-2 rounded-md bg-stone-100 text-[#0a0d14] font-medium text-sm disabled:opacity-40"
-          >
-            Send
-          </button>
-        </form>
+        )}
       </div>
+
+      <div ref={scrollRef} className="min-h-0 flex-1 overflow-y-auto px-4 py-3 space-y-3">
+        {messages.length === 0 && (
+          <div className="space-y-2">
+            <p className="mb-2 text-xs text-stone-500">
+              Try one of these about {archetype.name}:
+            </p>
+            {suggestions.map((s) => (
+              <button
+                key={s}
+                type="button"
+                onClick={() => send(s)}
+                className="block w-full rounded-md border border-border px-3 py-2 text-left text-sm transition-colors hover:border-stone-600"
+              >
+                {s}
+              </button>
+            ))}
+          </div>
+        )}
+        {messages.map((m, i) => (
+          <div
+            key={i}
+            className={`rounded-md px-3 py-2 text-sm leading-relaxed ${
+              m.role === "user"
+                ? "border border-border bg-surface-2"
+                : "border border-paralympic/40 bg-transparent"
+            }`}
+          >
+            <div className="mb-1 font-mono text-[10px] uppercase tracking-wider text-stone-500">
+              {m.role === "user" ? "You" : "Analyst"}
+            </div>
+            {m.text}
+          </div>
+        ))}
+        {busy &&
+          messages.length > 0 &&
+          messages[messages.length - 1]?.role === "model" &&
+          messages[messages.length - 1]?.text === "" && (
+            <p className="font-mono text-xs text-stone-500">Analyst thinking…</p>
+          )}
+      </div>
+
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          send(input);
+        }}
+        className="flex shrink-0 gap-2 border-t border-border px-3 py-3"
+      >
+        <input
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder="Ask about an era, a classification, or this archetype…"
+          className="flex-1 rounded-md border border-border bg-surface px-3 py-2 text-sm focus:border-paralympic focus:outline-none"
+        />
+        <button
+          type="submit"
+          disabled={busy || !input.trim()}
+          className="rounded-md bg-stone-100 px-4 py-2 text-sm font-medium text-[#0a0d14] disabled:opacity-40"
+        >
+          Send
+        </button>
+      </form>
     </div>
   );
+
+  if (layout === "drawer") {
+    return (
+      <div className="fixed inset-0 z-50 flex justify-end bg-black/40">
+        <div className="h-full w-full max-w-md">{panel}</div>
+      </div>
+    );
+  }
+
+  return panel;
 }
