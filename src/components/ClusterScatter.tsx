@@ -1,6 +1,10 @@
 "use client";
 
 import type { ArchetypeId, BiometricInput } from "@/lib/types";
+import {
+  formatHeightImperialFromCm,
+  formatWeightImperialFromKg,
+} from "@/lib/units";
 
 const CENTROIDS: {
   id: ArchetypeId;
@@ -111,7 +115,7 @@ export default function ClusterScatter({
                 textAnchor="middle"
                 fontFamily="var(--font-mono)"
               >
-                {h}
+                {formatHeightImperialFromCm(h)}
               </text>
             </g>
           ))}
@@ -132,7 +136,7 @@ export default function ClusterScatter({
                 textAnchor="end"
                 fontFamily="var(--font-mono)"
               >
-                {w}
+                {formatWeightImperialFromKg(w)}
               </text>
             </g>
           ))}
@@ -145,7 +149,7 @@ export default function ClusterScatter({
             textAnchor="middle"
             fontFamily="var(--font-mono)"
           >
-            height (cm)
+            height
           </text>
           <text
             x={12}
@@ -156,7 +160,7 @@ export default function ClusterScatter({
             transform={`rotate(-90 12 ${(H + PAD_T - PAD_B) / 2})`}
             fontFamily="var(--font-mono)"
           >
-            weight (kg)
+            weight
           </text>
 
           {CENTROIDS.map((c) => {
@@ -277,7 +281,7 @@ function Legend({
               key={c.id}
               color={c.color}
               label={c.name}
-              subtle={`${c.height}cm · ${c.weight}kg · ${c.movement}${movementMatch ? " ✓" : ""}`}
+              subtle={`${formatHeightImperialFromCm(c.height)} · ${formatWeightImperialFromKg(c.weight)} · ${c.movement}${movementMatch ? " ✓" : ""}`}
               highlighted={c.id === primaryArchetypeId}
               movementMatch={movementMatch}
             />

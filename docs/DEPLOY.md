@@ -1,4 +1,4 @@
-# Deploying Throughline to Google Cloud Run
+# Deploying My Olympian to Google Cloud Run
 
 > Goal: a public HTTPS URL that judges can hit, with `min-instances=1` so they never see a cold-start spinner.
 
@@ -8,8 +8,8 @@
 
 1. Go to https://console.cloud.google.com.
 2. Top-left, click the project picker → **NEW PROJECT**.
-3. Name it `throughline-hack` (or anything).
-4. Note the **Project ID** that gets generated — it looks like `throughline-hack-12345`. You'll need this.
+3. Name it `my-olympian-hack` (or anything).
+4. Note the **Project ID** that gets generated — it looks like `my-olympian-hack-12345`. You'll need this.
 
 ### 0b. Enable billing
 
@@ -51,10 +51,10 @@ Pick **one** of the two auth modes below. The Vertex AI path is recommended for 
 ### 1A. Vertex AI mode (recommended)
 
 ```powershell
-cd C:\Personal\Hackathons\Google\throughline
+cd C:\Personal\Hackathons\Google\my-olympian
 
 # Replace YOUR_PROJECT_ID before running
-gcloud run deploy throughline `
+gcloud run deploy my-olympian `
   --source . `
   --region us-central1 `
   --project YOUR_PROJECT_ID `
@@ -81,7 +81,7 @@ gcloud projects add-iam-policy-binding YOUR_PROJECT_ID `
 ### 1B. AI Studio key mode (fallback)
 
 ```powershell
-gcloud run deploy throughline `
+gcloud run deploy my-olympian `
   --source . `
   --region us-central1 `
   --project YOUR_PROJECT_ID `
@@ -100,7 +100,7 @@ What happens in either mode:
 3. Cloud Build reads your `Dockerfile` and builds the image (~3–5 min first time).
 4. Pushes the image to Artifact Registry.
 5. Deploys it to Cloud Run.
-6. Prints a public URL like `https://throughline-XXXXX-uc.a.run.app`.
+6. Prints a public URL like `https://my-olympian-XXXXX-uc.a.run.app`.
 
 **Save that URL.** You'll need it for the Devpost submission and the demo video.
 
@@ -108,7 +108,7 @@ What happens in either mode:
 
 ```powershell
 # Replace with your actual URL
-$url = "https://throughline-XXXXX-uc.a.run.app"
+$url = "https://my-olympian-XXXXX-uc.a.run.app"
 
 # Should return 200
 Invoke-WebRequest -Uri "$url/" -UseBasicParsing | Select-Object StatusCode
@@ -137,7 +137,7 @@ Open the URL in an **incognito** window to confirm it's not gated by your Google
 
 ```powershell
 # Make sure the service stays warm during the judging window
-gcloud run services update throughline `
+gcloud run services update my-olympian `
   --region us-central1 `
   --min-instances 1
 ```

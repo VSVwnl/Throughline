@@ -1,4 +1,4 @@
-# Throughline — 3:00 Demo Video Script
+# My Olympian — 3:00 Demo Video Script
 
 > Hard rules from the hackathon brief:
 > - Maximum 3:00 (180 seconds).
@@ -14,7 +14,7 @@
 **On screen:** Open the deployed Cloud Run URL. Land on the home page.
 
 **Voiceover (read aloud):**
-> "Team USA has never had one body type. Across 120 years, the Paralympic and Olympic teams have been built from athletes with wildly different builds — and most fans only ever see a sliver of that story. Throughline is a Gemini-powered analyst that maps any fan's build to the broader Team USA story, with equal depth for Paralympic and Olympic sport families."
+> "Team USA has never had one body type. Across 120 years, the Paralympic and Olympic teams have been built from athletes with wildly different builds — and most fans only ever see a sliver of that story. My Olympian is a Gemini-powered analyst that maps any fan's build to the broader Team USA story, with equal depth for Paralympic and Olympic sport families."
 
 **Action:** Click "Begin."
 
@@ -55,10 +55,10 @@
 
 ### 2:05 – 2:30 · The story studio (Gemini multimodality)
 
-**On screen:** Scroll up to the story section. Click "Hear your throughline."
+**On screen:** Scroll up to the story section. Click "Hear your story."
 
 **Voiceover (over the audio playback):**
-> "Gemini 2.5 Pro generates a personalized 90-word throughline that connects my archetype across 120 years, with conditional phrasing throughout — 'could align with,' never 'you should.' Gemini 2.5 Flash TTS reads it aloud. The silhouette card on the left is rendered by Imagen 4 as an abstract, geometric form — no faces, no real athletes, NIL-safe by design."
+> "Gemini 2.5 Pro generates a personalized 90-word Olympian story that connects my archetype across 120 years, with conditional phrasing throughout — 'could align with,' never 'you should.' Gemini 2.5 Flash TTS reads it aloud. The silhouette card on the left is rendered by Imagen 4 as an abstract, geometric form — no faces, no real athletes, NIL-safe by design."
 
 **Action:** Let the audio play for ~10 seconds, then continue speaking over it.
 
@@ -84,7 +84,7 @@
 4. Back to the app's hero page.
 
 **Voiceover (rapid):**
-> "Four Gemini surfaces — Pro for narrative, Flash for chat, Flash TTS for audio, Imagen 4 for the silhouette card — wired through Vertex AI and Cloud Run. Apache-2.0 licensed. Throughline. Find yourself in 120 years of Team USA."
+> "Four Gemini surfaces — Pro for narrative, Flash for chat, Flash TTS for audio, Imagen 4 for the silhouette card — wired through Vertex AI and Cloud Run. Apache-2.0 licensed. My Olympian. Find yourself in 120 years of Team USA."
 
 ---
 

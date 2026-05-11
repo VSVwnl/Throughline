@@ -7,7 +7,7 @@ const MODEL_TTS = process.env.GEMINI_TTS_MODEL ?? "gemini-2.5-flash-preview-tts"
 const MODEL_IMAGE =
   process.env.GEMINI_IMAGE_MODEL ?? "imagen-4.0-generate-001";
 
-const SYSTEM_RULES = `You are the Throughline analyst for Team USA.
+const SYSTEM_RULES = `You are the My Olympian analyst for Team USA.
 
 Hard rules — never break these:
 1. Use conditional phrasing only ("could align with", "historically appears near", "may resemble"). Never "you should", "you will", or any guarantee.
@@ -53,11 +53,11 @@ function mockNarrative({ archetype, paraLeading }: NarrativeRequest): string {
   const second = paraLeading
     ? `On the Olympic side, the same pattern could align with ${oly} families across multiple eras of Team USA participation.`
     : `On the Paralympic side, this pattern could align with ${para?.sport ?? "Para sport"} (${para?.classification ?? "classification varies"}), with US programs developing across recent cycles.`;
-  return `${first} ${second} Across roughly 120 years, the ${archetype.name.toLowerCase()} build has surfaced in Team USA wherever ${archetype.movementVibe.toLowerCase()} mattered — a throughline you can follow without anyone needing to be a champion to belong to it.`;
+  return `${first} ${second} Across roughly 120 years, the ${archetype.name.toLowerCase()} build has surfaced in Team USA wherever ${archetype.movementVibe.toLowerCase()} mattered — a story you can follow without anyone needing to be a champion to belong to it.`;
 }
 
 function narrativeUserPrompt(req: NarrativeRequest): string {
-  return `Write a 90–110 word personalized "throughline" narrative for a Team USA fan whose archetype is "${req.archetype.name}".
+  return `Write a 90–110 word personalized "My Olympian" narrative for a Team USA fan whose archetype is "${req.archetype.name}".
 Build profile: ${req.archetype.buildProfile}
 Movement vibe: ${req.archetype.movementVibe}
 Olympic sport families: ${req.archetype.olympicFamilies.join(", ")}

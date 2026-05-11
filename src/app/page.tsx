@@ -5,7 +5,7 @@ export default function Home() {
     <main className="flex flex-1 items-center justify-center px-6 py-16">
       <div className="w-full max-w-3xl">
         <p className="font-mono text-xs uppercase tracking-[0.2em] text-paralympic mb-6">
-          Throughline · Team USA × Google Cloud
+          My Olympian · Team USA × Google Cloud
         </p>
 
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-semibold leading-[1.05] tracking-tight">
@@ -15,7 +15,7 @@ export default function Home() {
         </h1>
 
         <p className="mt-6 text-lg text-stone-300 max-w-2xl leading-relaxed">
-          Throughline maps your build to a Team USA athlete archetype, then
+          My Olympian maps your build to a Team USA athlete archetype, then
           walks your archetype across a century of US Olympic{" "}
           <em className="not-italic text-olympic">and</em>{" "}
           Paralympic sport families — with equal depth for both, narrated by a

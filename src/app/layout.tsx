@@ -13,7 +13,7 @@ const mono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Throughline — Find yourself in 120 years of Team USA",
+  title: "My Olympian — Find yourself in 120 years of Team USA",
   description:
     "Find your archetype's path through 120 years of Team USA. A multimodal Gemini agent that turns your biometrics into a personal journey across US Olympic and Paralympic sport families.",
 };

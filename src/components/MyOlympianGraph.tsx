@@ -47,7 +47,7 @@ function wavePath(
   return d;
 }
 
-export default function ThroughlineGraph({ archetype }: { archetype: Archetype }) {
+export default function MyOlympianGraph({ archetype }: { archetype: Archetype }) {
   const color = ARCHETYPE_COLORS[archetype.id];
   const eras = archetype.eras;
 
@@ -102,7 +102,7 @@ export default function ThroughlineGraph({ archetype }: { archetype: Archetype }
   return (
     <div className="rounded-md border border-border bg-surface p-4 md:p-6">
       <div className="font-mono text-[10px] uppercase tracking-wider text-stone-500 mb-4">
-        The throughline · 120 years · {archetype.name}
+        My Olympian · 120 years · {archetype.name}
       </div>
 
       <div className="overflow-x-auto -mx-2 px-2">

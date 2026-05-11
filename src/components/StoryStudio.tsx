@@ -143,10 +143,10 @@ export default function StoryStudio({
       <div>
         <div className="rounded-md border border-border bg-surface p-5">
           <div className="font-mono text-[10px] uppercase tracking-wider text-stone-500 mb-3">
-            Throughline narrative
+            My Olympian narrative
           </div>
           <p className="text-stone-200 leading-relaxed text-[15px]">
-            {narrative || "Generating your throughline…"}
+            {narrative || "Generating your story…"}
           </p>
         </div>
 
@@ -160,7 +160,7 @@ export default function StoryStudio({
               ? "Generating audio…"
               : audio.kind === "ready"
                 ? "Replay audio"
-                : "Hear your throughline"}
+                : "Hear your story"}
           </button>
 
           {audio.kind === "ready" && (

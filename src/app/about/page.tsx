@@ -7,7 +7,7 @@ export default function AboutPage() {
         href="/"
         className="font-mono text-xs uppercase tracking-[0.2em] text-stone-500 hover:text-stone-300"
       >
-        ← Throughline
+        ← My Olympian
       </Link>
 
       <h1 className="mt-6 text-3xl font-semibold tracking-tight">
@@ -15,7 +15,7 @@ export default function AboutPage() {
       </h1>
 
       <p className="mt-4 text-stone-300 leading-relaxed">
-        Throughline is built for the Team USA × Google Cloud hackathon
+        My Olympian is built for the Team USA × Google Cloud hackathon
         (Challenge 4 — The Athlete Archetype Agent). It is a fan-facing
         analytical tool, not a coaching tool, not a prediction tool, and not a
         medical tool.
@@ -61,10 +61,10 @@ export default function AboutPage() {
         <ul className="list-disc pl-5 space-y-2 text-stone-300">
           <li>
             <strong>Narrative (Gemini 2.5 Pro):</strong> writes a personal
-            120-year throughline, conditional phrasing only.
+            120-year Olympian story, conditional phrasing only.
           </li>
           <li>
-            <strong>Audio (Gemini 2.5 TTS):</strong> reads your throughline
+            <strong>Audio (Gemini 2.5 TTS):</strong> reads your story
             aloud.
           </li>
           <li>

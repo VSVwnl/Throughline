@@ -1,24 +1,24 @@
-# Throughline
+# My Olympian
 
 > Find your archetype's path through 120 years of Team USA.
 
 A submission for the **Team USA × Google Cloud Hackathon — Challenge 4: The Athlete Archetype Agent**.
 
-Throughline is a multimodal Gemini agent that maps a fan's biometric inputs to one of five Team USA athlete archetypes, then walks that archetype across roughly 120 years of US Olympic **and** Paralympic sport families with equal analytical depth — narrated in text, audio, and image by Gemini.
+My Olympian is a multimodal Gemini agent that maps a fan's biometric inputs to one of five Team USA athlete archetypes, then walks that archetype across roughly 120 years of US Olympic **and** Paralympic sport families with equal analytical depth — narrated in text, audio, and image by Gemini.
 
-- **Live demo:** https://throughline-861789748163.us-central1.run.app
+- **Live demo:** https://my-olympian-861789748163.us-central1.run.app
 - **Demo video:** _(YouTube unlisted link)_
 - **License:** Apache 2.0 (see [`LICENSE`](./LICENSE))
 
 ## Why this matters
 
-Team USA has never had one body type. Throughline lets any fan see themselves in the collective journey of Team USA without identifying any private individual, treating Paralympic and Olympic histories with equal depth.
+Team USA has never had one body type. My Olympian lets any fan see themselves in the collective journey of Team USA without identifying any private individual, treating Paralympic and Olympic histories with equal depth.
 
 ## How Gemini is used
 
 | Lane | Capability | Model | Purpose |
 |---|---|---|---|
-| Narrative | Reasoning + long context | `gemini-2.5-pro` | Personal 120-year throughline narrative |
+| Narrative | Reasoning + long context | `gemini-2.5-pro` | Personal 120-year Olympian story |
 | Audio | Multimodality | `gemini-2.5-flash-preview-tts` | Reads the narrative aloud (Kore voice) |
 | Silhouette | Multimodality | `imagen-4.0-generate-001` | Stylized abstract silhouette card, NIL-safe |
 | Chat | Reasoning | `gemini-2.5-flash` | Follow-up Q&A with equal Olympic/Paralympic depth |
@@ -73,7 +73,7 @@ See [`DEPLOY.md`](./DEPLOY.md) for the full runbook. Short version:
 
 ```powershell
 # Vertex AI path (recommended — uses Google Cloud credits, no key in env)
-gcloud run deploy throughline `
+gcloud run deploy my-olympian `
   --source . `
   --region us-central1 `
   --allow-unauthenticated `

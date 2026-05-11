@@ -1,4 +1,4 @@
-# Devpost Submission — Throughline
+# Devpost Submission — My Olympian
 
 > Hackathon: [Team USA × Google Cloud](https://vibecodeforgoldwithgoogle.devpost.com/)
 > Challenge: **Challenge 4 — The Athlete Archetype Agent**
@@ -19,7 +19,7 @@
 
 ## Project name
 
-**Throughline**
+**My Olympian**
 
 ## Tagline (one line)
 
@@ -29,9 +29,9 @@ Find yourself in 120 years of Team USA.
 
 > **Lead with Paralympic representation in the first paragraph — this is the rubric tiebreaker.**
 
-Throughline is a fan-facing analytical agent that maps any Team USA fan to one of five athlete archetypes, then walks that archetype across roughly 120 years of US **Paralympic and Olympic** sport families with equal analytical depth. Paralympic classifications are explained at the same level of detail as Olympic events. Where the historical record allows it (Paralympic Games begin in 1960), the era cards show Olympic and Paralympic columns side-by-side with equal width; where it does not, the cards say so explicitly rather than inventing data.
+My Olympian is a fan-facing analytical agent that maps any Team USA fan to one of five athlete archetypes, then walks that archetype across roughly 120 years of US **Paralympic and Olympic** sport families with equal analytical depth. Paralympic classifications are explained at the same level of detail as Olympic events. Where the historical record allows it (Paralympic Games begin in 1960), the era cards show Olympic and Paralympic columns side-by-side with equal width; where it does not, the cards say so explicitly rather than inventing data.
 
-Built for **Challenge 4: The Athlete Archetype Agent** of the Team USA × Google Cloud Hackathon, Throughline turns the brief's 120-year, biometric-input, fan-facing-agent specification into a single end-to-end experience: a 4-field form, a clustered archetype match, a 5-bubble cluster scatter, an Olympic+Paralympic timeline, and a multimodal Gemini story studio (text + audio + abstract silhouette image), plus a chat agent grounded in classification context.
+Built for **Challenge 4: The Athlete Archetype Agent** of the Team USA × Google Cloud Hackathon, My Olympian turns the brief's 120-year, biometric-input, fan-facing-agent specification into a single end-to-end experience: a 4-field form, a clustered archetype match, a 5-bubble cluster scatter, an Olympic+Paralympic timeline, and a multimodal Gemini story studio (text + audio + abstract silhouette image), plus a chat agent grounded in classification context.
 
 ### Key features
 
@@ -40,7 +40,7 @@ Built for **Challenge 4: The Athlete Archetype Agent** of the Team USA × Google
 - **Cluster scatter visualization** with one-standard-deviation ellipses showing the user's position relative to all 5 illustrative archetype centroids — a fan-engagement signal, not a competitive prediction.
 - **All-five exploration** — the result page leads with the top two matches as hero cards and exposes the remaining three as one-tap pills, so every archetype is discoverable from a single screen.
 - **Story Studio** (3 Gemini surfaces in one screen):
-  - **Narrative** — `gemini-2.5-pro` generates a personalized ~100-word throughline using strict conditional phrasing.
+  - **Narrative** — `gemini-2.5-pro` generates a personalized ~100-word Olympian story using strict conditional phrasing.
   - **Audio** — `gemini-2.5-flash-preview-tts` (Kore voice) reads the narrative aloud.
   - **Silhouette card** — `imagen-4.0-generate-001` produces an abstract, geometric silhouette; deterministic SVG fallback when no credentials are present. NIL-safe by design — never shows real athletes.
 - **Analyst chat** — `gemini-2.5-flash` answers follow-up questions about classifications, eras, and archetypes, with the same length and analytical depth required for Paralympic content as Olympic.
@@ -49,7 +49,7 @@ Built for **Challenge 4: The Athlete Archetype Agent** of the Team USA × Google
 
 | Capability | Model | What it does |
 |---|---|---|
-| Reasoning + long context (narrative) | `gemini-2.5-pro` | 120-year personalized throughline narrative |
+| Reasoning + long context (narrative) | `gemini-2.5-pro` | 120-year personalized Olympian story |
 | Reasoning (chat) | `gemini-2.5-flash` | Follow-up Q&A with equal Olympic / Paralympic depth |
 | Multimodality (audio) | `gemini-2.5-flash-preview-tts` | Reads the narrative aloud (Kore voice) |
 | Multimodality (image) | `imagen-4.0-generate-001` | Abstract archetype silhouette card, NIL-safe |
@@ -81,8 +81,8 @@ System prompts on every Gemini call enforce four invariants: conditional phrasin
 
 | Field | Value |
 |---|---|
-| Hosted project URL | `https://throughline-861789748163.us-central1.run.app` |
-| Public code repository | `https://github.com/YOUR_USERNAME/throughline` |
+| Hosted project URL | `https://my-olympian-861789748163.us-central1.run.app` |
+| Public code repository | `https://github.com/YOUR_USERNAME/My-Olympian` |
 | Demo video | `https://youtu.be/YOUR_UNLISTED_VIDEO_ID` |
 | License | Apache 2.0 (visible in repo About sidebar) |
 
@@ -98,7 +98,7 @@ System prompts on every Gemini call enforce four invariants: conditional phrasin
 3. Enter approximate height, weight, age band, and movement preference.
 4. View your top 2 archetypes as hero cards — Paralympic-leaning is shown first by design.
 5. Tap any of the three "Also explore" pills below to swap the story, timeline, and chat to a different archetype.
-6. Click "Hear your throughline" to hear the Gemini-narrated audio.
+6. Click "Hear your story" to hear the Gemini-narrated audio.
 7. Scroll the era timeline to see Olympic + Paralympic sport families side-by-side from 1904 → 2024.
 8. Click "Open analyst chat" and try the suggested questions about classifications.
 ```

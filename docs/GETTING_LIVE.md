@@ -1,4 +1,4 @@
-# Getting Throughline live — zero-experience runbook
+# Getting My Olympian live — zero-experience runbook
 
 > **Deadline:** May 11, 2026 @ 5:00 PM PDT = **8:00 PM EDT** Monday.
 > **Now:** Sunday 9:12 PM EDT — about **23 hours** out.
@@ -39,13 +39,13 @@ If something blows up in Phase 1-4 tonight, you still have all of Monday daytime
 1. Open https://console.cloud.google.com in your browser. Sign in with your Google account (the same `vishnusai.usa@gmail.com` you use for git is fine).
 2. At the very top of the page, just right of the "Google Cloud" logo, you'll see a **project picker dropdown**. Click it.
 3. In the popup that opens, top-right corner: click **NEW PROJECT**.
-4. **Project name:** `throughline-hack`
+4. **Project name:** `my-olympian-hack`
 5. **Organization:** leave as "No organization" if it's the default.
 6. Click **CREATE**. Wait ~10 seconds.
-7. The notification bell (top right) will say "Created project throughline-hack." Click **SELECT PROJECT** on that notification, or click the project picker again and pick it.
-8. **Copy the Project ID** — under the project name there's an ID like `throughline-hack-123456`. Save it somewhere. You'll need it many times. (Project *name* and project *ID* are different — the ID is what `gcloud` cares about.)
+7. The notification bell (top right) will say "Created project my-olympian-hack." Click **SELECT PROJECT** on that notification, or click the project picker again and pick it.
+8. **Copy the Project ID** — under the project name there's an ID like `my-olympian-hack-123456`. Save it somewhere. You'll need it many times. (Project *name* and project *ID* are different — the ID is what `gcloud` cares about.)
 
-**You should see:** Top of the page now shows "throughline-hack" next to the Google Cloud logo.
+**You should see:** Top of the page now shows "my-olympian-hack" next to the Google Cloud logo.
 
 ### 1.2 Enable billing
 
@@ -104,7 +104,7 @@ A terminal window opens automatically. It will:
 
 1. Ask **"You must log in to continue. Would you like to log in?"** → type `Y` and hit Enter.
 2. Open your browser. Sign in with the **same Google account** that owns the GCP project. Click **Allow** to grant permissions.
-3. Back in the terminal: it lists your projects. Pick the number for `throughline-hack`.
+3. Back in the terminal: it lists your projects. Pick the number for `my-olympian-hack`.
 4. **"Do you want to configure a default Compute Region and Zone?"** → type `Y`, then pick the number for **`us-central1`** (a common option is `us-central1-a`).
 
 **You should see:** Final message ends with "Your Google Cloud SDK is configured and ready to use!"
@@ -125,7 +125,7 @@ Google Cloud SDK 4xx.0.0
 ...
 [core]
 account = vishnusai.usa@gmail.com
-project = throughline-hack-123456
+project = my-olympian-hack-123456
 ```
 
 **If `gcloud` is "not recognized":** Close ALL terminal windows (including the one inside Cursor) and open a fresh one. The installer modified your PATH but existing terminals won't see it until restarted. **Also restart Cursor** so its internal terminal picks up the new PATH.
@@ -146,7 +146,7 @@ project = throughline-hack-123456
 ### 3.2 Create the empty repo
 
 1. Top-right plus icon (➕) → **New repository**.
-2. **Repository name:** `throughline`
+2. **Repository name:** `My-Olympian`
 3. **Description:** `Find yourself in 120 years of Team USA — Gemini × Cloud Run, Challenge 4 submission for the Team USA × Google Cloud Hackathon.`
 4. **Public** ✓ (must be public)
 5. **Do NOT** check "Add a README", "Add .gitignore", or "Choose a license" — we already have all three in the repo.
@@ -159,7 +159,7 @@ You'll land on an empty repo page with instructions.
 In the GitHub page that just opened, look for the section **"...or push an existing repository from the command line"**. It shows three lines like:
 
 ```
-git remote add origin https://github.com/VSVwnl/throughline.git
+git remote add origin https://github.com/VSVwnl/My-Olympian.git
 git branch -M main
 git push -u origin main
 ```
@@ -169,7 +169,7 @@ git push -u origin main
 In a PowerShell terminal inside the project folder, but before pushing, **commit the pending model-default fixes I made earlier:**
 
 ```powershell
-cd C:\Personal\Hackathons\Google\throughline
+cd C:\Personal\Hackathons\Google\my-olympian
 
 git add README.md SUBMISSION.md src/lib/gemini.ts
 
@@ -182,12 +182,12 @@ Then run the three commands GitHub showed you. The first time you push, a browse
 
 ### 3.4 Verify Apache-2.0 is detected
 
-1. On your repo page (https://github.com/YOUR_USERNAME/throughline), look at the **right sidebar** under "About".
+1. On your repo page (https://github.com/YOUR_USERNAME/My-Olympian), look at the **right sidebar** under "About".
 2. There should be a line that reads **"Apache-2.0 license"** with a small scale icon.
 
 **If it's missing:** Click the gear icon ⚙ next to "About". In the "License" dropdown, GitHub auto-detects `LICENSE` files — if our file looks correct it should already show. If it doesn't, leave that screen, refresh, and check the sidebar again. GitHub re-scans on a short delay.
 
-**Checkpoint:** Paste your repo URL (e.g. `https://github.com/VSVwnl/throughline`) into the chat. I'll add it to `SUBMISSION.md` and we move on.
+**Checkpoint:** Paste your repo URL (e.g. `https://github.com/VSVwnl/My-Olympian`) into the chat. I'll add it to `SUBMISSION.md` and we move on.
 
 ---
 
@@ -199,13 +199,13 @@ Then run the three commands GitHub showed you. The first time you push, a browse
 
 I'll give you the exact command. **Replace these two values before running:**
 
-- `YOUR_PROJECT_ID` — your project ID from Phase 1.1 (e.g. `throughline-hack-123456`)
+- `YOUR_PROJECT_ID` — your project ID from Phase 1.1 (e.g. `my-olympian-hack-123456`)
 - `YOUR_GEMINI_KEY` — the value of `GEMINI_API_KEY` from your local `.env.local` file (starts with `AIzaSy...`)
 
 ```powershell
-cd C:\Personal\Hackathons\Google\throughline
+cd C:\Personal\Hackathons\Google\my-olympian
 
-gcloud run deploy throughline `
+gcloud run deploy my-olympian `
   --source . `
   --region us-central1 `
   --project YOUR_PROJECT_ID `
@@ -225,8 +225,8 @@ The backticks are PowerShell line continuations — they're important. If you'd 
 The terminal will say something like:
 
 ```
-Building using Dockerfile and deploying container to Cloud Run service [throughline] in project [throughline-hack-...] region [us-central1]
-Allow unauthenticated invocations to [throughline]? (y/N)? y
+Building using Dockerfile and deploying container to Cloud Run service [my-olympian] in project [my-olympian-hack-...] region [us-central1]
+Allow unauthenticated invocations to [my-olympian]? (y/N)? y
 ```
 
 Type `y` and Enter.
@@ -234,8 +234,8 @@ Type `y` and Enter.
 Then it streams the build log for ~3–5 minutes the first time (90 seconds on subsequent deploys because Cloud Build caches layers). When it's done you'll see:
 
 ```
-Service [throughline] revision [throughline-00001-xyz] has been deployed and is serving 100 percent of traffic.
-Service URL: https://throughline-xxxxxxxxxx-uc.a.run.app
+Service [my-olympian] revision [my-olympian-00001-xyz] has been deployed and is serving 100 percent of traffic.
+Service URL: https://my-olympian-xxxxxxxxxx-uc.a.run.app
 ```
 
 **Save that Service URL.** It's the centerpiece of your submission.
@@ -247,7 +247,7 @@ Service URL: https://throughline-xxxxxxxxxx-uc.a.run.app
 | `Permission denied on resource project` | Wrong project. Run `gcloud config set project YOUR_PROJECT_ID` and retry. |
 | `Cloud Build API has not been used` | You missed an API in 1.4. Open https://console.cloud.google.com/apis/library/cloudbuild.googleapis.com, click ENABLE, wait 60s, retry. |
 | `Step #X: npm ci ... ERR!` | A code-side build error. Paste the last 30 lines of the build log into the chat. |
-| `The user-provided container failed to start` | Means the container started but crashed. Get the runtime logs with `gcloud run services logs read throughline --region us-central1 --limit 50` and paste them. |
+| `The user-provided container failed to start` | Means the container started but crashed. Get the runtime logs with `gcloud run services logs read my-olympian --region us-central1 --limit 50` and paste them. |
 | `Quota exceeded` | Try `--region us-east1` instead of `us-central1`. |
 
 **Checkpoint:** Paste the Service URL into the chat when the deploy finishes.
@@ -268,7 +268,7 @@ Service URL: https://throughline-xxxxxxxxxx-uc.a.run.app
    - Top-2 cards render with the Paralympic-leaning card **first**.
    - The cluster scatter chart shows 5 colored ellipses + your white "you" point.
    - The narrative paragraph generates within ~10 seconds (uses `gemini-2.5-pro`).
-   - "Hear your throughline" button plays audio after ~5 seconds.
+   - "Hear your story" button plays audio after ~5 seconds.
    - The silhouette image renders (or falls back to the colored SVG if Imagen isn't available on your key — that's still acceptable).
    - The timeline shows Olympic + Paralympic columns of equal width.
    - "Open analyst chat" works and a suggested question returns an answer.
@@ -278,7 +278,7 @@ Service URL: https://throughline-xxxxxxxxxx-uc.a.run.app
 In PowerShell, replace `YOUR_URL` and run:
 
 ```powershell
-$url = "https://throughline-xxxxxxxxxx-uc.a.run.app"
+$url = "https://my-olympian-xxxxxxxxxx-uc.a.run.app"
 
 Invoke-RestMethod -Uri "$url/api/narrative" -Method POST -ContentType "application/json" -Body '{"archetypeId":"reach-rhythm","paraLeading":true}'
 
@@ -291,7 +291,7 @@ $silResp.kind   # "image" means Imagen worked. "mock" means it fell back.
 **If `silhouette` returns "mock":** Imagen 4 isn't available on your AI Studio key. Quick fix without redeploying code:
 
 ```powershell
-gcloud run services update throughline `
+gcloud run services update my-olympian `
   --region us-central1 `
   --update-env-vars "GEMINI_IMAGE_MODEL=gemini-2.5-flash-image"
 ```
@@ -336,7 +336,7 @@ These are explicit rubric requirements:
 1. Sign in to https://youtube.com (same Google account).
 2. Top-right → camera icon (📹) → **Upload video**.
 3. Pick your file.
-4. Title: `Throughline — Team USA × Google Cloud Hackathon Demo`
+4. Title: `My Olympian — Team USA × Google Cloud Hackathon Demo`
 5. Description: a one-paragraph version of the SUBMISSION.md project description.
 6. **Visibility:** **Unlisted** (not Public, not Private — Unlisted).
 7. Publish, copy the share link (looks like `https://youtu.be/...`).

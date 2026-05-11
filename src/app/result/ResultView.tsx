@@ -13,7 +13,11 @@ import ChatPanel from "@/components/ChatPanel";
 import StoryStudio from "@/components/StoryStudio";
 import SilhouetteFallback from "@/components/SilhouetteFallback";
 import ClusterScatter from "@/components/ClusterScatter";
-import ThroughlineGraph from "@/components/ThroughlineGraph";
+import MyOlympianGraph from "@/components/MyOlympianGraph";
+import {
+  formatHeightImperialFromCm,
+  formatWeightImperialFromKg,
+} from "@/lib/units";
 
 const ARCHETYPE_COLORS: Record<ArchetypeId, string> = {
   "reach-rhythm": "#5fb3b3",
@@ -76,17 +80,18 @@ export default function ResultView() {
           href="/"
           className="font-mono text-xs uppercase tracking-[0.2em] text-stone-500 hover:text-stone-300"
         >
-          ← Throughline
+          ← My Olympian
         </Link>
         <p className="font-mono text-xs uppercase tracking-wider text-stone-500">
-          {input.heightCm}cm · {input.weightKg}kg · {labelAge(input.ageBand)} ·{" "}
+          {formatHeightImperialFromCm(input.heightCm)} ·{" "}
+          {formatWeightImperialFromKg(input.weightKg)} · {labelAge(input.ageBand)} ·{" "}
           {labelMovement(input.movement)}
         </p>
       </header>
 
       <section>
         <p className="font-mono text-xs uppercase tracking-[0.2em] text-paralympic mb-3">
-          Your throughline begins
+          Your Olympian story begins
         </p>
         <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight">
           You could align with{" "}
@@ -171,7 +176,7 @@ export default function ResultView() {
       <section className="mt-16">
         <SectionHeader
           eyebrow="Story"
-          title={`Hear your throughline as ${active.archetype.name}.`}
+          title={`Hear your story as ${active.archetype.name}.`}
         />
         <StoryStudio
           key={`${active.archetype.id}-${paraLeading ? "para" : "oly"}`}
@@ -182,10 +187,10 @@ export default function ResultView() {
 
       <section className="mt-16 mb-24 md:mb-12">
         <SectionHeader
-          eyebrow="Throughline"
+          eyebrow="My Olympian"
           title={`${active.archetype.name} across 120 years of Team USA.`}
         />
-        <ThroughlineGraph key={active.archetype.id} archetype={active.archetype} />
+        <MyOlympianGraph key={active.archetype.id} archetype={active.archetype} />
       </section>
 
       <aside

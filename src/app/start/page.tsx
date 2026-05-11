@@ -3,6 +3,18 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import {
+  HEIGHT_IN_DEFAULT,
+  HEIGHT_IN_MAX,
+  HEIGHT_IN_MIN,
+  WEIGHT_LB_DEFAULT,
+  WEIGHT_LB_MAX,
+  WEIGHT_LB_MIN,
+  formatHeightImperial,
+  formatWeightImperial,
+  inchesToCm,
+  lbsToKg,
+} from "@/lib/units";
 
 const MOVEMENTS = [
   { id: "endurance", label: "Endurance", hint: "Sustain a long, even effort" },
@@ -20,16 +32,16 @@ const AGE_BANDS = [
 
 export default function StartPage() {
   const router = useRouter();
-  const [heightCm, setHeightCm] = useState(178);
-  const [weightKg, setWeightKg] = useState(75);
+  const [heightIn, setHeightIn] = useState(HEIGHT_IN_DEFAULT);
+  const [weightLb, setWeightLb] = useState(WEIGHT_LB_DEFAULT);
   const [ageBand, setAgeBand] = useState<string>("20s");
   const [movement, setMovement] = useState<string>("endurance");
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     const params = new URLSearchParams({
-      h: String(heightCm),
-      w: String(weightKg),
+      h: String(inchesToCm(heightIn)),
+      w: String(lbsToKg(weightLb)),
       a: ageBand,
       m: movement,
     });
@@ -43,7 +55,7 @@ export default function StartPage() {
           href="/"
           className="font-mono text-xs uppercase tracking-[0.2em] text-stone-500 hover:text-stone-300"
         >
-          ← Throughline
+          ← My Olympian
         </Link>
         <h1 className="mt-6 text-3xl font-semibold tracking-tight">
           Tell us a few things about your build.
@@ -56,30 +68,30 @@ export default function StartPage() {
         <form onSubmit={onSubmit} className="mt-10 grid gap-8">
           <Field
             label="Height"
-            value={`${heightCm} cm`}
-            hint="140 – 220 cm"
+            value={formatHeightImperial(heightIn)}
+            hint={`${formatHeightImperial(HEIGHT_IN_MIN)} – ${formatHeightImperial(HEIGHT_IN_MAX)}`}
           >
             <input
               type="range"
-              min={140}
-              max={220}
-              value={heightCm}
-              onChange={(e) => setHeightCm(Number(e.target.value))}
+              min={HEIGHT_IN_MIN}
+              max={HEIGHT_IN_MAX}
+              value={heightIn}
+              onChange={(e) => setHeightIn(Number(e.target.value))}
               className="w-full accent-paralympic"
             />
           </Field>
 
           <Field
             label="Weight"
-            value={`${weightKg} kg`}
-            hint="40 – 160 kg"
+            value={formatWeightImperial(weightLb)}
+            hint={`${formatWeightImperial(WEIGHT_LB_MIN)} – ${formatWeightImperial(WEIGHT_LB_MAX)}`}
           >
             <input
               type="range"
-              min={40}
-              max={160}
-              value={weightKg}
-              onChange={(e) => setWeightKg(Number(e.target.value))}
+              min={WEIGHT_LB_MIN}
+              max={WEIGHT_LB_MAX}
+              value={weightLb}
+              onChange={(e) => setWeightLb(Number(e.target.value))}
               className="w-full accent-olympic"
             />
           </Field>
