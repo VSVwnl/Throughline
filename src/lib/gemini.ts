@@ -1,9 +1,11 @@
 import type { Archetype } from "@/lib/types";
 
 const MODEL_TEXT = "gemini-2.5-flash";
-const MODEL_NARRATIVE = "gemini-2.5-pro";
+const MODEL_NARRATIVE =
+  process.env.GEMINI_NARRATIVE_MODEL ?? "gemini-2.5-flash";
 const MODEL_TTS = "gemini-2.5-flash-preview-tts";
-const MODEL_IMAGE = "imagen-4.0-generate-001";
+const MODEL_IMAGE =
+  process.env.GEMINI_IMAGE_MODEL ?? "gemini-2.5-flash-image";
 
 const SYSTEM_RULES = `You are the Throughline analyst for Team USA.
 
@@ -149,19 +151,40 @@ export async function generateSilhouette(archetype: Archetype): Promise<ImageRes
   if (!hasApiKey()) return { kind: "mock", archetypeId: archetype.id };
   try {
     const ai = await getClient();
-    const prompt = `An abstract, stylized silhouette representing the "${archetype.name}" Team USA athlete archetype: ${archetype.buildProfile}. Movement vibe: ${archetype.movementVibe}. Flat geometric design, single accent color on a dark navy background, no faces, no text, no logos, no real people, suitable for a museum-style infographic.`;
-    const res = await ai.models.generateImages({
-      model: MODEL_IMAGE,
-      prompt,
-      config: { numberOfImages: 1, aspectRatio: "1:1" },
-    });
-    const img = res.generatedImages?.[0]?.image;
-    if (img?.imageBytes) {
-      return {
-        kind: "image",
-        mimeType: img.mimeType ?? "image/png",
-        base64: img.imageBytes,
-      };
+    const prompt = `An abstract, stylized silhouette representing the "${archetype.name}" Team USA athlete archetype: ${archetype.buildProfile}. Movement vibe: ${archetype.movementVibe}. Flat geometric design, single accent color on a deep navy background (#0a0d14), no faces, no text, no logos, no real people, no identifying features, square 1:1 aspect ratio, museum-infographic style.`;
+
+    const isImagen = MODEL_IMAGE.startsWith("imagen");
+    if (isImagen) {
+      const res = await ai.models.generateImages({
+        model: MODEL_IMAGE,
+        prompt,
+        config: { numberOfImages: 1, aspectRatio: "1:1" },
+      });
+      const img = res.generatedImages?.[0]?.image;
+      if (img?.imageBytes) {
+        return {
+          kind: "image",
+          mimeType: img.mimeType ?? "image/png",
+          base64: img.imageBytes,
+        };
+      }
+    } else {
+      const res = await ai.models.generateContent({
+        model: MODEL_IMAGE,
+        contents: prompt,
+        config: { responseModalities: ["IMAGE"] },
+      });
+      const parts = res.candidates?.[0]?.content?.parts ?? [];
+      for (const part of parts) {
+        const inline = part?.inlineData;
+        if (inline?.data && inline.mimeType?.startsWith("image/")) {
+          return {
+            kind: "image",
+            mimeType: inline.mimeType,
+            base64: inline.data,
+          };
+        }
+      }
     }
     return { kind: "mock", archetypeId: archetype.id };
   } catch (err) {
